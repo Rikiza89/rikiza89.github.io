@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub 完全ガイド - ゼロからプロフェッショナルへ</title>
+    <style>
+        /* === CSS RESET & BASE === */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --bg-code: #1a1e24;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #bc8cff;
+            --border-color: #30363d;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --radius: 8px;
+            --max-width: 960px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === NAVIGATION === */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .nav-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .nav-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--accent-blue);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        /* === HERO === */
+        .hero {
+            padding: 8rem 1.5rem 4rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-easy {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .badge-intermediate {
+            background: rgba(210, 153, 34, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+        }
+
+        .badge-expert {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+
+        /* === MAIN CONTENT === */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* === SECTIONS === */
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        /* === CODE BLOCKS === */
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            position: relative;
+        }
+
+        pre code {
+            font-family: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        code {
+            font-family: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+            background: var(--bg-tertiary);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-blue);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0 var(--radius) 0 var(--radius);
+            font-family: "SF Mono", monospace;
+        }
+
+        .comment {
+            color: var(--text-muted);
+        }
+
+        .cmd {
+            color: var(--accent-green);
+        }
+
+        .flag {
+            color: var(--accent-orange);
+        }
+
+        .string {
+            color: var(--accent-blue);
+        }
+
+        /* === CARDS === */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        .card-highlight {
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .card-warning {
+            border-left: 3px solid var(--accent-orange);
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .card-danger {
+            border-left: 3px solid var(--accent-red);
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .card-success {
+            border-left: 3px solid var(--accent-green);
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        /* === TABLES === */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        /* === LISTS === */
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* === LEVEL TABS === */
+        .level-tabs {
+            display: flex;
+            gap: 0;
+            margin: 2rem 0 0;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .level-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .level-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .level-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .level-tab[data-level="easy"].active {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        .level-tab[data-level="intermediate"].active {
+            color: var(--accent-orange);
+            border-bottom-color: var(--accent-orange);
+        }
+
+        .level-tab[data-level="expert"].active {
+            color: var(--accent-red);
+            border-bottom-color: var(--accent-red);
+        }
+
+        .level-content {
+            display: none;
+            padding-top: 1.5rem;
+        }
+
+        .level-content.active {
+            display: block;
+        }
+
+        /* === DIAGRAM === */
+        .diagram {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            font-family: "SF Mono", monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+            color: var(--accent-blue);
+        }
+
+        /* === CALLOUT === */
+        .callout {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .callout p:last-child {
+            margin-bottom: 0;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        /* === CHEAT SHEET === */
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .cheat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+
+        .cheat-card h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cheat-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .cheat-cmd {
+            font-family: "SF Mono", monospace;
+            color: var(--accent-green);
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        .cheat-desc {
+            color: var(--text-secondary);
+        }
+
+        /* === BACK TO TOP === */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #79b8ff;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                border-radius: var(--radius);
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .level-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .level-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .cheat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .diagram {
+                font-size: 0.7rem;
+                padding: 1rem;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .table-wrapper {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 0.5rem 0.75rem;
+            }
+        }
+
+        /* === PRINT === */
+        @media print {
+            .nav, .back-to-top, .nav-toggle {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: #333;
+            }
+            .hero {
+                padding-top: 2rem;
+            }
+        }
+
+        /* === ACCESSIBILITY === */
+        :focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" role="navigation" aria-label="メインナビゲーション">
+    <div class="nav-inner">
+        <a href="#top" class="nav-logo"><span>Git</span> & GitHub ガイド</a>
+        <button class="nav-toggle" aria-label="メニューを開く" onclick="toggleNav()">&#9776;</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#quickstart">クイックスタート</a></li>
+            <li><a href="#basics">基本概念</a></li>
+            <li><a href="#commands">基本コマンド</a></li>
+            <li><a href="#branches">ブランチ</a></li>
+            <li><a href="#remote">リモート操作</a></li>
+            <li><a href="#workflows">ワークフロー</a></li>
+            <li><a href="#cheatsheet">チートシート</a></li>
+        </ul>
+        <a href="Profile/profile.html" class="nav-logo">Rikiza</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+    <h1>Git & GitHub 完全ガイド</h1>
+    <p>ゼロからプロフェッショナルまで。初心者にもわかりやすい実践的なGit入門ガイドです。</p>
+    <div class="hero-badges">
+        <span class="badge badge-easy">初級 - 個人開発</span>
+        <span class="badge badge-intermediate">中級 - チーム開発</span>
+        <span class="badge badge-expert">上級 - プロダクション</span>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ==================== QUICK START ==================== -->
+    <section id="quickstart">
+        <h2>クイックスタート（5分で始める）</h2>
+
+        <div class="callout">
+            <div class="callout-title">初めてのGit？ここから始めましょう！</div>
+            <p>難しいことは後から覚えれば大丈夫。まずはこの5ステップだけ覚えてください。</p>
+        </div>
+
+        <h3>ステップ1：Gitをインストール</h3>
+        <pre><code><span class="comment"># macOS</span>
+<span class="cmd">brew install</span> git
+
+<span class="comment"># Ubuntu/Debian</span>
+<span class="cmd">sudo apt install</span> git
+
+<span class="comment"># Windows: https://git-scm.com からダウンロード</span></code></pre>
+
+        <h3>ステップ2：自分の名前を登録</h3>
+        <pre><code><span class="cmd">git config</span> <span class="flag">--global</span> user.name <span class="string">"あなたの名前"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> user.email <span class="string">"you@example.com"</span></code></pre>
+
+        <h3>ステップ3：プロジェクトを作成</h3>
+        <pre><code><span class="cmd">mkdir</span> my-first-project
+<span class="cmd">cd</span> my-first-project
+<span class="cmd">git init</span></code></pre>
+
+        <h3>ステップ4：作業を保存する（毎日やること）</h3>
+        <pre><code><span class="comment"># ファイルを作成</span>
+<span class="cmd">echo</span> <span class="string">"Hello, World!"</span> > hello.txt
+
+<span class="comment"># Gitに追跡させる</span>
+<span class="cmd">git add</span> hello.txt
+
+<span class="comment"># スナップショットを保存（「コミット」する）</span>
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"最初のファイルを追加"</span></code></pre>
+
+        <h3>ステップ5：GitHubにアップロード</h3>
+        <pre><code><span class="cmd">git remote add</span> origin https://github.com/あなた/my-first-project.git
+<span class="cmd">git push</span> <span class="flag">-u</span> origin main</code></pre>
+
+        <div class="card card-success">
+            <h4>買い物に例えると...</h4>
+            <ul>
+                <li><code>git add</code> = 商品をカートに入れる</li>
+                <li><code>git commit</code> = レジでお会計する（保存確定）</li>
+                <li><code>git push</code> = 商品を倉庫に発送する（GitHubにアップロード）</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ==================== INTRODUCTION ==================== -->
+    <section id="basics">
+        <h2>基本概念</h2>
+
+        <h3>Gitとは？</h3>
+        <p><strong>Git</strong>は「バージョン管理システム」です。コードの変更履歴を自動で記録してくれるツールで、2005年にLinuxの作者リーナス・トーバルズが作りました。</p>
+        <p>簡単に言うと、コードの<strong>タイムマシン</strong>です。いつでも過去の状態に戻れます。</p>
+
+        <h3>GitHubとは？</h3>
+        <p><strong>GitHub</strong>はGitリポジトリをインターネット上に保存するクラウドサービスです。Google Driveのコード版だと思ってください。</p>
+
+        <h3>GitとGitHubの違い</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>Git</th>
+                        <th>GitHub</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>何か？</td>
+                        <td>バージョン管理ソフト</td>
+                        <td>クラウドホスティング</td>
+                    </tr>
+                    <tr>
+                        <td>動く場所</td>
+                        <td>自分のパソコン</td>
+                        <td>インターネット上</td>
+                    </tr>
+                    <tr>
+                        <td>インターネット</td>
+                        <td>不要</td>
+                        <td>必要</td>
+                    </tr>
+                    <tr>
+                        <td>料金</td>
+                        <td>無料（オープンソース）</td>
+                        <td>基本無料（有料プランあり）</td>
+                    </tr>
+                    <tr>
+                        <td>例え</td>
+                        <td>Word（ソフト）</td>
+                        <td>OneDrive（クラウド保存）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Gitの3つの状態</h3>
+        <p>Gitでは、ファイルは常に3つの場所のどこかにいます：</p>
+
+        <div class="diagram">作業ディレクトリ  ──→  ステージング  ──→  リポジトリ
+   （編集する）     (git add)     (git commit)
+
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│  ファイル     │   │  ファイル     │   │  ファイル     │
+│  （変更済み）  │──→│ （準備完了）  │──→│ （保存済み）  │
+└─────────────┘   └─────────────┘   └─────────────┘</div>
+
+        <div class="card-grid">
+            <div class="card card-highlight">
+                <h4>作業ディレクトリ</h4>
+                <p>ファイルを実際に編集する場所。まだGitは変更を記録していません。</p>
+            </div>
+            <div class="card card-highlight">
+                <h4>ステージング（インデックス）</h4>
+                <p>コミット前の「準備エリア」。買い物カートのようなものです。</p>
+            </div>
+            <div class="card card-highlight">
+                <h4>リポジトリ</h4>
+                <p>コミットされた変更が永久に保存される場所。Gitの歴史書です。</p>
+            </div>
+        </div>
+
+        <h3>バージョン管理がない場合 vs ある場合</h3>
+        <div class="card-grid">
+            <div class="card card-danger">
+                <h4>バージョン管理なし</h4>
+                <pre><code>レポート_最終版.docx
+レポート_最終版v2.docx
+レポート_最終版v2_修正済.docx
+レポート_これを使え.docx</code></pre>
+            </div>
+            <div class="card card-success">
+                <h4>バージョン管理あり</h4>
+                <pre><code>レポート.docx
+（全ての変更履歴付き）</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BASIC COMMANDS ==================== -->
+    <section id="commands">
+        <h2>基本コマンド</h2>
+
+        <p>毎日使うコマンドです。この6つを覚えれば基本的な作業ができます。</p>
+
+        <h3><code>git status</code> - 今の状態を確認</h3>
+        <p>「今どうなってる？」を教えてくれます。<strong>迷ったらまずこれを実行！</strong></p>
+        <pre><code><span class="cmd">git status</span>
+
+<span class="comment"># 出力例：</span>
+<span class="comment"># ブランチ main</span>
+<span class="comment"># 変更されたファイル：</span>
+<span class="comment">#     modified: app.py</span>
+<span class="comment"># 追跡されていないファイル：</span>
+<span class="comment">#     new_file.txt</span></code></pre>
+
+        <h3><code>git add</code> - ファイルをステージに追加</h3>
+        <pre><code><span class="comment"># 特定のファイルを追加</span>
+<span class="cmd">git add</span> filename.txt
+
+<span class="comment"># すべてのファイルを追加</span>
+<span class="cmd">git add</span> .
+
+<span class="comment"># 複数ファイルを追加</span>
+<span class="cmd">git add</span> file1.txt file2.py</code></pre>
+
+        <h3><code>git commit</code> - 変更を保存</h3>
+        <pre><code><span class="comment"># メッセージ付きでコミット</span>
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"ログイン機能を追加"</span>
+
+<span class="comment"># 追跡済みファイルを全てコミット（addをスキップ）</span>
+<span class="cmd">git commit</span> <span class="flag">-a -m</span> <span class="string">"バグを修正"</span></code></pre>
+
+        <div class="card card-warning">
+            <h4>良いコミットメッセージの書き方</h4>
+            <p><strong>良い例：</strong></p>
+            <ul>
+                <li><code>feat: ユーザー認証機能を追加</code></li>
+                <li><code>fix: ログイン画面のクラッシュを修正</code></li>
+                <li><code>docs: READMEにインストール手順を追加</code></li>
+            </ul>
+            <p><strong>悪い例：</strong></p>
+            <ul>
+                <li><code>修正した</code> ← 何を？</li>
+                <li><code>更新</code> ← 具体性ゼロ</li>
+                <li><code>asdfasdf</code> ← 論外</li>
+            </ul>
+        </div>
+
+        <h3><code>git log</code> - 履歴を見る</h3>
+        <pre><code><span class="comment"># コンパクト表示（おすすめ）</span>
+<span class="cmd">git log</span> <span class="flag">--oneline</span>
+
+<span class="comment"># 出力例：</span>
+<span class="comment"># a1b2c3d ログイン機能を追加</span>
+<span class="comment"># e4f5g6h ナビバーのスタイル修正</span>
+<span class="comment"># i7j8k9l 初期コミット</span>
+
+<span class="comment"># グラフ付き（ブランチが見える）</span>
+<span class="cmd">git log</span> <span class="flag">--oneline --graph --all</span></code></pre>
+
+        <h3><code>git diff</code> - 変更内容を確認</h3>
+        <pre><code><span class="comment"># まだステージしていない変更を見る</span>
+<span class="cmd">git diff</span>
+
+<span class="comment"># ステージ済みの変更を見る</span>
+<span class="cmd">git diff</span> <span class="flag">--staged</span></code></pre>
+    </section>
+
+    <!-- ==================== BRANCHES ==================== -->
+    <section id="branches">
+        <h2>ブランチ（分岐）</h2>
+
+        <p>ブランチはGitの最も強力な機能です。コードの「パラレルワールド」を作れます。</p>
+
+        <div class="callout">
+            <div class="callout-title">ブランチを本に例えると</div>
+            <p><code>main</code>ブランチ = 出版された本<br>
+            <code>chapter-5-rewrite</code>ブランチ = 第5章の書き直し案<br>
+            <code>fix-typos</code>ブランチ = 誤字修正<br>
+            それぞれ独立して作業し、良い変更だけを本編に合流（マージ）できます。</p>
+        </div>
+
+        <h3>ブランチの基本操作</h3>
+        <pre><code><span class="comment"># ブランチ一覧を表示</span>
+<span class="cmd">git branch</span>
+
+<span class="comment"># 新しいブランチを作成して切り替え</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> feature/login
+
+<span class="comment"># ブランチを切り替え</span>
+<span class="cmd">git switch</span> main
+
+<span class="comment"># ブランチを削除（マージ済みのみ）</span>
+<span class="cmd">git branch</span> <span class="flag">-d</span> feature/login
+
+<span class="comment"># ブランチ名を変更</span>
+<span class="cmd">git branch</span> <span class="flag">-m</span> old-name new-name</code></pre>
+
+        <h3>ブランチの命名規則</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>種類</th>
+                        <th>プレフィックス</th>
+                        <th>例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>新機能</td>
+                        <td><code>feature/</code></td>
+                        <td><code>feature/user-authentication</code></td>
+                    </tr>
+                    <tr>
+                        <td>バグ修正</td>
+                        <td><code>bugfix/</code></td>
+                        <td><code>bugfix/navbar-mobile</code></td>
+                    </tr>
+                    <tr>
+                        <td>緊急修正</td>
+                        <td><code>hotfix/</code></td>
+                        <td><code>hotfix/security-patch</code></td>
+                    </tr>
+                    <tr>
+                        <td>ドキュメント</td>
+                        <td><code>docs/</code></td>
+                        <td><code>docs/api-endpoints</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>マージ（ブランチの合流）</h3>
+        <pre><code><span class="comment"># mainに切り替えてからマージ</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git merge</span> feature/login
+
+<span class="comment"># マージを中止</span>
+<span class="cmd">git merge</span> <span class="flag">--abort</span></code></pre>
+
+        <div class="diagram">マージ前：
+      A---B---C  main
+           \
+            D---E  feature
+
+マージ後：
+      A---B---C---F  main
+           \     /
+            D---E  feature
+
+F = マージコミット</div>
+
+        <h3>マージコンフリクト（衝突）の解決</h3>
+        <p>2つのブランチが同じ行を変更した時に起きます。怖くありません！</p>
+
+        <pre><code><span class="comment"># コンフリクトが発生すると、ファイルにマーカーが付きます：</span>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+    username = "admin"
+=======
+    username = "user"
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-login
+
+<span class="comment"># 解決方法：</span>
+<span class="comment"># 1. ファイルを開いてマーカーを削除</span>
+<span class="comment"># 2. 正しいコードだけを残す</span>
+<span class="comment"># 3. 保存してコミット</span>
+
+<span class="cmd">git add</span> conflict-file.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"コンフリクトを解決"</span></code></pre>
+    </section>
+
+    <!-- ==================== REMOTE ==================== -->
+    <section id="remote">
+        <h2>リモート操作（GitHub連携）</h2>
+
+        <h3>リモートリポジトリとは</h3>
+        <p>GitHub上にあるリポジトリのコピーです。チームでの共同作業やバックアップに使います。</p>
+
+        <h3>基本的なリモート操作</h3>
+        <pre><code><span class="comment"># リモートの確認</span>
+<span class="cmd">git remote</span> <span class="flag">-v</span>
+
+<span class="comment"># リモートを追加</span>
+<span class="cmd">git remote add</span> origin https://github.com/user/repo.git
+
+<span class="comment"># ローカルの変更をアップロード</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin main
+
+<span class="comment"># リモートの変更をダウンロード</span>
+<span class="cmd">git pull</span> origin main
+
+<span class="comment"># リモートの変更を確認だけ（マージしない）</span>
+<span class="cmd">git fetch</span> origin</code></pre>
+
+        <div class="card card-highlight">
+            <h4>push と pull の違い</h4>
+            <ul>
+                <li><code>git push</code> = 自分の変更をGitHubに<strong>送信</strong></li>
+                <li><code>git pull</code> = GitHubの変更を<strong>受信</strong>してマージ</li>
+                <li><code>git fetch</code> = GitHubの変更を<strong>確認</strong>するだけ（安全）</li>
+            </ul>
+        </div>
+
+        <h3>プルリクエスト（PR）</h3>
+        <p>プルリクエストは「このブランチの変更をmainに取り込んでください」というリクエストです。</p>
+
+        <div class="card card-success">
+            <h4>PRの作成手順</h4>
+            <ol>
+                <li>フィーチャーブランチで作業してプッシュ</li>
+                <li>GitHubで「Compare &amp; pull request」をクリック</li>
+                <li>タイトルと説明を書く</li>
+                <li>レビュアーを指定</li>
+                <li>レビュー後にマージ</li>
+            </ol>
+        </div>
+
+        <h3>.gitignore（除外ファイル）</h3>
+        <p>Gitに追跡させたくないファイルを指定します。</p>
+        <pre><code><span class="comment"># パスワードや秘密鍵</span>
+.env
+*.key
+
+<span class="comment"># 依存パッケージ（サイズが大きい）</span>
+node_modules/
+venv/
+
+<span class="comment"># ビルド出力</span>
+dist/
+build/
+
+<span class="comment"># OS固有のファイル</span>
+.DS_Store
+Thumbs.db
+
+<span class="comment"># IDE設定</span>
+.vscode/
+.idea/</code></pre>
+
+        <h3>スタッシュ（一時保存）</h3>
+        <p>作業中の変更を一時的に退避させる機能です。ブランチを急に切り替えたい時に便利。</p>
+        <pre><code><span class="comment"># 変更を一時保存</span>
+<span class="cmd">git stash</span>
+
+<span class="comment"># ブランチを切り替えて作業...</span>
+<span class="cmd">git switch</span> main
+
+<span class="comment"># 戻ってきて復元</span>
+<span class="cmd">git switch</span> feature-branch
+<span class="cmd">git stash pop</span></code></pre>
+
+        <h3>変更の取り消し</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>コマンド</th>
+                        <th>何をする？</th>
+                        <th>危険度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git restore ファイル名</code></td>
+                        <td>未コミットの変更を破棄</td>
+                        <td>低い</td>
+                    </tr>
+                    <tr>
+                        <td><code>git restore --staged ファイル名</code></td>
+                        <td>ステージを取り消し</td>
+                        <td>安全</td>
+                    </tr>
+                    <tr>
+                        <td><code>git reset --soft HEAD~1</code></td>
+                        <td>コミットを取消し（変更は残る）</td>
+                        <td>中</td>
+                    </tr>
+                    <tr>
+                        <td><code>git reset --hard HEAD~1</code></td>
+                        <td>コミットと変更を完全削除</td>
+                        <td><strong>高い！</strong></td>
+                    </tr>
+                    <tr>
+                        <td><code>git revert コミットID</code></td>
+                        <td>変更を打ち消す新コミット</td>
+                        <td>安全</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ==================== WORKFLOWS ==================== -->
+    <section id="workflows">
+        <h2>実践ワークフロー（初級・中級・上級）</h2>
+
+        <p>レベル別の実際の開発シナリオです。コピー＆ペーストですぐに使えます。</p>
+
+        <div class="level-tabs" role="tablist">
+            <button class="level-tab active" data-level="easy" role="tab" onclick="switchLevel('easy')">初級</button>
+            <button class="level-tab" data-level="intermediate" role="tab" onclick="switchLevel('intermediate')">中級</button>
+            <button class="level-tab" data-level="expert" role="tab" onclick="switchLevel('expert')">上級</button>
+        </div>
+
+        <!-- EASY LEVEL -->
+        <div class="level-content active" id="level-easy">
+            <h3>初級：個人開発者向け</h3>
+            <p>一人でプロジェクトを管理する場合のワークフローです。</p>
+
+            <h4>例1：ポートフォリオサイトの管理</h4>
+            <pre><code><span class="comment"># === 初期設定（1回だけ） ===</span>
+<span class="cmd">mkdir</span> portfolio
+<span class="cmd">cd</span> portfolio
+<span class="cmd">git init</span>
+
+<span class="comment"># ファイルを作成</span>
+<span class="cmd">echo</span> <span class="string">"&lt;h1&gt;My Portfolio&lt;/h1&gt;"</span> > index.html
+
+<span class="cmd">git add</span> index.html
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"ポートフォリオのトップページ作成"</span>
+
+<span class="comment"># GitHubに接続</span>
+<span class="cmd">git remote add</span> origin https://github.com/you/portfolio.git
+<span class="cmd">git push</span> <span class="flag">-u</span> origin main</code></pre>
+
+            <pre><code><span class="comment"># === 毎日の作業 ===</span>
+<span class="comment"># ファイルを編集して...</span>
+
+<span class="cmd">git status</span>          <span class="comment"># 何が変わった？</span>
+<span class="cmd">git add</span> .            <span class="comment"># 全部カートに入れる</span>
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"プロジェクト紹介セクションを追加"</span>
+<span class="cmd">git push</span>             <span class="comment"># GitHubにアップ</span></code></pre>
+
+            <h4>例2：学校の課題を安全に管理</h4>
+            <pre><code><span class="comment"># プロジェクトを初期化</span>
+<span class="cmd">cd</span> python-assignment
+<span class="cmd">git init</span>
+
+<span class="comment"># 動くバージョンを保存</span>
+<span class="cmd">git add</span> main.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"基本的な計算機能を実装"</span>
+
+<span class="comment"># リスクのある変更を試す...</span>
+<span class="cmd">git add</span> main.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"挑戦：関数電卓モードを追加"</span>
+
+<span class="comment"># 壊れた！元に戻す</span>
+<span class="cmd">git revert</span> HEAD
+<span class="comment"># これで動くバージョンに戻れました</span></code></pre>
+        </div>
+
+        <!-- INTERMEDIATE LEVEL -->
+        <div class="level-content" id="level-intermediate">
+            <h3>中級：チーム開発（2〜5人）</h3>
+            <p>ブランチとプルリクエストを使ったチーム開発のワークフローです。</p>
+
+            <h4>例3：友達とWebアプリを開発</h4>
+            <p>あなた＝バックエンド担当、友達＝フロントエンド担当</p>
+            <pre><code><span class="comment"># === あなたの作業（バックエンド） ===</span>
+<span class="cmd">git clone</span> https://github.com/team/todo-app.git
+<span class="cmd">cd</span> todo-app
+
+<span class="comment"># フィーチャーブランチを作成</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> feature/api-endpoints
+
+<span class="comment"># APIを開発</span>
+<span class="cmd">git add</span> server.py routes.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"feat: タスクCRUDエンドポイントを追加"</span>
+
+<span class="cmd">git add</span> database.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"feat: SQLiteデータベース連携を追加"</span>
+
+<span class="comment"># プッシュしてPRを作成</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin feature/api-endpoints
+
+<span class="comment"># GitHubでPull Requestを作成</span>
+<span class="comment"># レビュー後にマージ</span>
+
+<span class="comment"># ローカルをクリーンアップ</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git pull</span> origin main
+<span class="cmd">git branch</span> <span class="flag">-d</span> feature/api-endpoints</code></pre>
+
+            <h4>例4：バグ報告への対応</h4>
+            <p>ユーザーから「ログイン画面がモバイルでクラッシュする」との報告</p>
+            <pre><code><span class="comment"># 最新のmainから開始</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git pull</span> origin main
+
+<span class="comment"># バグ修正ブランチを作成</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> bugfix/login-mobile-crash
+
+<span class="comment"># バグを調査して修正</span>
+<span class="cmd">git add</span> login.css login.js
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"fix: モバイルでのログイン画面クラッシュを修正
+
+ログインフォームのコンテナが固定幅だったため、
+375px未満の画面でオーバーフローしていた。
+max-widthとパーセント指定に変更。
+
+Fixes #87"</span>
+
+<span class="comment"># プッシュしてPRを作成</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin bugfix/login-mobile-crash</code></pre>
+
+            <h4>例5：コンフリクトの解決</h4>
+            <pre><code><span class="comment"># マージしようとしたらコンフリクト発生！</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git merge</span> feature/update-config
+<span class="comment"># CONFLICT: Merge conflict in config.py</span>
+
+<span class="comment"># config.pyを開くとこんな表示：</span>
+<span class="comment"># &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span>
+<span class="comment"># DATABASE_URL = "postgresql://localhost/myapp_v2"</span>
+<span class="comment"># =======</span>
+<span class="comment"># DATABASE_URL = "postgresql://localhost/myapp_production"</span>
+<span class="comment"># &gt;&gt;&gt;&gt;&gt;&gt;&gt; main</span>
+
+<span class="comment"># チームメイトと相談して正しい方を残す</span>
+<span class="comment"># マーカー（&lt;&lt;&lt;, ===, &gt;&gt;&gt;）を全て削除</span>
+
+<span class="cmd">git add</span> config.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"fix: config.pyのコンフリクト解決、本番DB URLを使用"</span></code></pre>
+        </div>
+
+        <!-- EXPERT LEVEL -->
+        <div class="level-content" id="level-expert">
+            <h3>上級：プロダクション環境 & オープンソース</h3>
+
+            <h4>例6：CI/CD付きの本格的な機能開発</h4>
+            <pre><code><span class="comment"># === 朝：機能開発の開始 ===</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git pull</span> origin main
+<span class="cmd">git switch</span> <span class="flag">-c</span> feature/payment-integration
+
+<span class="comment"># === 小さなコミットで段階的に開発 ===</span>
+<span class="cmd">git add</span> models/payment.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"feat: Stripe用の決済モデルを追加"</span>
+
+<span class="cmd">git add</span> services/payment_service.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"feat: Stripe SDK使用の決済処理サービスを追加"</span>
+
+<span class="cmd">git add</span> tests/
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"test: 決済システムのテストを追加"</span>
+
+<span class="comment"># === PR前の整理 ===</span>
+<span class="cmd">git fetch</span> origin
+<span class="cmd">git rebase</span> origin/main
+
+<span class="comment"># プッシュ（リベース後はforce-with-leaseが必要）</span>
+<span class="cmd">git push</span> <span class="flag">--force-with-lease</span> origin feature/payment-integration
+
+<span class="comment"># CI/CDパイプラインが自動実行：</span>
+<span class="comment"># ✅ リンター通過</span>
+<span class="comment"># ✅ ユニットテスト通過</span>
+<span class="comment"># ✅ セキュリティスキャン通過</span>
+
+<span class="comment"># レビュー承認後、マージ</span></code></pre>
+
+            <h4>例7：オープンソースへの貢献</h4>
+            <pre><code><span class="comment"># === ステップ1：フォークしてクローン ===</span>
+<span class="comment"># GitHubで「Fork」ボタンをクリック</span>
+<span class="cmd">git clone</span> https://github.com/あなた/cool-library.git
+<span class="cmd">cd</span> cool-library
+
+<span class="comment"># 本家リポジトリを「upstream」として追加</span>
+<span class="cmd">git remote add</span> upstream https://github.com/本家/cool-library.git
+
+<span class="comment"># === ステップ2：同期を保つ ===</span>
+<span class="cmd">git fetch</span> upstream
+<span class="cmd">git switch</span> main
+<span class="cmd">git merge</span> upstream/main
+
+<span class="comment"># === ステップ3：修正ブランチで作業 ===</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> fix/csv-unicode-error
+<span class="comment"># バグを修正...</span>
+<span class="cmd">git add</span> parser.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"fix: CSVパーサーのUnicode BOM処理を修正"</span>
+
+<span class="comment"># === ステップ4：自分のフォークにプッシュ ===</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin fix/csv-unicode-error
+
+<span class="comment"># === ステップ5：本家にPRを作成 ===</span>
+<span class="comment"># GitHubで base=本家/main ← compare=あなた/fix/csv-unicode-error</span></code></pre>
+
+            <h4>例8：本番環境の緊急修正（ホットフィックス）</h4>
+            <pre><code><span class="comment"># === 緊急対応！ ===</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git pull</span> origin main
+
+<span class="comment"># ホットフィックスブランチ作成</span>
+<span class="cmd">git switch</span> <span class="flag">-c</span> hotfix/fix-auth-crash
+
+<span class="comment"># 最小限の修正（余計な変更はしない！）</span>
+<span class="cmd">git add</span> auth/session.py
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"hotfix: セッショントークンのnullチェック追加
+
+本番ユーザーが500エラーを受けていた原因は、
+期限切れトークンがnullを返す際のチェック漏れ。
+
+Incident: INC-2024-0892"</span>
+
+<span class="comment"># 即座にプッシュ → 緊急レビュー → マージ</span>
+<span class="cmd">git push</span> <span class="flag">-u</span> origin hotfix/fix-auth-crash
+
+<span class="comment"># リリースタグを付ける</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git pull</span> origin main
+<span class="cmd">git tag</span> <span class="flag">-a</span> v2.3.1 <span class="flag">-m</span> <span class="string">"Hotfix: 認証クラッシュ修正"</span>
+<span class="cmd">git push</span> origin v2.3.1</code></pre>
+
+            <h4>例9：リリース管理</h4>
+            <pre><code><span class="comment"># === リリースブランチ作成 ===</span>
+<span class="cmd">git switch</span> develop
+<span class="cmd">git pull</span> origin develop
+<span class="cmd">git switch</span> <span class="flag">-c</span> release/v2.0.0
+
+<span class="comment"># バグ修正のみ（新機能は追加しない！）</span>
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"fix: バージョン番号を2.0.0に更新"</span>
+
+<span class="comment"># === mainにマージ → タグ付け ===</span>
+<span class="cmd">git switch</span> main
+<span class="cmd">git merge</span> release/v2.0.0
+<span class="cmd">git tag</span> <span class="flag">-a</span> v2.0.0 <span class="flag">-m</span> <span class="string">"Release v2.0.0"</span>
+<span class="cmd">git push</span> origin main <span class="flag">--tags</span>
+
+<span class="comment"># === developにもマージ ===</span>
+<span class="cmd">git switch</span> develop
+<span class="cmd">git merge</span> main
+<span class="cmd">git push</span> origin develop</code></pre>
+        </div>
+
+        <h3>レベル別まとめ</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>レベル</th>
+                        <th>対象</th>
+                        <th>主なスキル</th>
+                        <th>例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-easy" style="font-size:0.75rem">初級</span></td>
+                        <td>個人開発者・学生</td>
+                        <td>add, commit, push, log</td>
+                        <td>ポートフォリオ、ノート、課題</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-intermediate" style="font-size:0.75rem">中級</span></td>
+                        <td>小チーム（2〜5人）</td>
+                        <td>ブランチ、PR、コンフリクト解決</td>
+                        <td>Webアプリ、チーム開発</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-expert" style="font-size:0.75rem">上級</span></td>
+                        <td>プロチーム・OSS</td>
+                        <td>リベース、CI/CD、リリース</td>
+                        <td>本番アプリ、OSS貢献</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ==================== CHEAT SHEET ==================== -->
+    <section id="cheatsheet">
+        <h2>チートシート</h2>
+
+        <div class="cheat-grid">
+            <div class="cheat-card">
+                <h4>毎日使うコマンド</h4>
+                <div class="cheat-item"><span class="cheat-cmd">git status</span><span class="cheat-desc">状態確認</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git add .</span><span class="cheat-desc">全てステージ</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git commit -m "msg"</span><span class="cheat-desc">コミット</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git push</span><span class="cheat-desc">アップロード</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git pull</span><span class="cheat-desc">ダウンロード</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git log --oneline</span><span class="cheat-desc">履歴確認</span></div>
+            </div>
+            <div class="cheat-card">
+                <h4>ブランチ操作</h4>
+                <div class="cheat-item"><span class="cheat-cmd">git branch</span><span class="cheat-desc">一覧表示</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git switch -c name</span><span class="cheat-desc">作成＆切替</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git switch name</span><span class="cheat-desc">切り替え</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git merge name</span><span class="cheat-desc">マージ</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git branch -d name</span><span class="cheat-desc">削除</span></div>
+            </div>
+            <div class="cheat-card">
+                <h4>取り消し・復元</h4>
+                <div class="cheat-item"><span class="cheat-cmd">git restore file</span><span class="cheat-desc">変更破棄</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git restore --staged file</span><span class="cheat-desc">ステージ解除</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git reset --soft HEAD~1</span><span class="cheat-desc">コミット戻す</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git revert hash</span><span class="cheat-desc">安全に取消</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git stash / git stash pop</span><span class="cheat-desc">一時退避</span></div>
+            </div>
+            <div class="cheat-card">
+                <h4>リモート操作</h4>
+                <div class="cheat-item"><span class="cheat-cmd">git clone url</span><span class="cheat-desc">リポジトリ複製</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git remote -v</span><span class="cheat-desc">リモート確認</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git fetch</span><span class="cheat-desc">変更確認のみ</span></div>
+                <div class="cheat-item"><span class="cheat-cmd">git push -u origin br</span><span class="cheat-desc">初回プッシュ</span></div>
+            </div>
+        </div>
+
+        <h3>毎日のワークフロー</h3>
+        <div class="diagram">┌─────────────────────────────────────────────────┐
+│           毎日の Git ワークフロー                   │
+├─────────────────────────────────────────────────┤
+│ 朝：     git pull origin main                    │
+│ 作成：   git switch -c feature/name              │
+│ 作業：   （ファイルを編集）                        │
+│ 確認：   git status                              │
+│ 追加：   git add .                               │
+│ 保存：   git commit -m "メッセージ"               │
+│ 送信：   git push                                │
+│ 依頼：   GitHubでPRを作成                         │
+│ 完了：   レビュー後にマージ                        │
+│ 掃除：   git branch -d feature/name              │
+└─────────────────────────────────────────────────┘</div>
+    </section>
+
+    <!-- ==================== MISTAKES ==================== -->
+    <section id="mistakes">
+        <h2>よくある間違いと対処法</h2>
+
+        <div class="card-grid">
+            <div class="card card-warning">
+                <h4>mainに直接コミットしてしまった</h4>
+                <pre><code><span class="cmd">git branch</span> feature-name
+<span class="cmd">git reset</span> <span class="flag">--hard</span> origin/main
+<span class="cmd">git switch</span> feature-name</code></pre>
+            </div>
+            <div class="card card-warning">
+                <h4>pushする前にpullを忘れた</h4>
+                <pre><code><span class="cmd">git pull</span> <span class="flag">--rebase</span> origin main
+<span class="cmd">git push</span></code></pre>
+            </div>
+            <div class="card card-danger">
+                <h4>秘密情報をコミットしてしまった</h4>
+                <pre><code><span class="comment"># push前なら：</span>
+<span class="cmd">git rm</span> <span class="flag">--cached</span> .env
+<span class="cmd">git commit</span> <span class="flag">--amend</span>
+
+<span class="comment"># push後なら：</span>
+<span class="comment"># すぐにAPIキーを無効化！</span></code></pre>
+            </div>
+            <div class="card card-success">
+                <h4>パニック時の対処法</h4>
+                <pre><code><span class="comment"># 1. 落ち着く</span>
+<span class="cmd">git status</span>    <span class="comment"># 状態確認</span>
+<span class="cmd">git log</span>       <span class="comment"># 履歴確認</span>
+<span class="cmd">git reflog</span>    <span class="comment"># 全操作履歴</span>
+<span class="comment"># reflogで任意の時点に戻れます</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== RESOURCES ==================== -->
+    <section id="resources">
+        <h2>学習リソース</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>公式ドキュメント</h4>
+                <ul>
+                    <li><a href="https://git-scm.com/doc" style="color:var(--accent-blue)">Git公式ドキュメント</a></li>
+                    <li><a href="https://docs.github.com" style="color:var(--accent-blue)">GitHub Docs</a></li>
+                    <li><a href="https://git-scm.com/book/ja/v2" style="color:var(--accent-blue)">Pro Git Book（日本語版・無料）</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>インタラクティブ学習</h4>
+                <ul>
+                    <li><a href="https://learngitbranching.js.org/?locale=ja" style="color:var(--accent-blue)">Learn Git Branching（日本語対応）</a></li>
+                    <li><a href="https://skills.github.com/" style="color:var(--accent-blue)">GitHub Skills</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>おすすめの習慣</h4>
+                <ul>
+                    <li>毎日：頻繁にコミット、明確なメッセージ</li>
+                    <li>毎週：古いブランチを整理</li>
+                    <li>毎月：新しいGitコマンドを1つ覚える</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">最後に</div>
+            <p>Gitは練習あるのみです。最初はシンプルに始めて、慣れてきたら高度な機能を使いましょう。間違えても大丈夫 &#8212; Gitはほぼ全ての操作を元に戻せます。</p>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>Git & GitHub 完全ガイド | <a href="https://github.com">GitHub</a>でソースコードを見る</p>
+    <p style="margin-top:0.5rem">このガイドの<a href="README.md">英語版README</a>もご覧ください。</p>
+</footer>
+
+<!-- Back to top button -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0})" aria-label="ページトップに戻る">&#8593;</button>
+
+<script>
+    // Toggle mobile navigation
+    function toggleNav() {
+        document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // Close nav when clicking a link (mobile)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+
+    // Level tabs
+    function switchLevel(level) {
+        document.querySelectorAll('.level-tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.level-content').forEach(content => content.classList.remove('active'));
+        document.querySelector(`.level-tab[data-level="${level}"]`).classList.add('active');
+        document.getElementById(`level-${level}`).classList.add('active');
+    }
+
+    // Back to top button visibility
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        if (window.scrollY > 500) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+</script>
+
+</body>
+</html>

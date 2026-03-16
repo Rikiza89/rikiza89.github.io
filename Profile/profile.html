@@ -1,0 +1,1479 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中田 リッカルド力左衛門 | Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+--accent-orange:#f59e0b;
+--accent-coral:#fb7185;
+--accent-magenta:#d946ef;
+--accent-teal:#14b8a6;
+
+--bg-dark:#120a08;
+--bg-warm:#1a0f0a;
+--bg-soft:#20120e;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Noto Sans JP',sans-serif;
+background:
+radial-gradient(circle at 15% 20%, rgba(245,158,11,.12), transparent 40%),
+radial-gradient(circle at 80% 80%, rgba(217,70,239,.10), transparent 45%),
+linear-gradient(180deg,var(--bg-warm),var(--bg-dark));
+color:#fff;
+overflow-x:hidden;
+scroll-behavior:smooth;
+cursor:none;
+}
+
+/* Custom cursor */
+#cursor{
+position:fixed;
+width:12px;
+height:12px;
+background:var(--accent-orange);
+border-radius:50%;
+pointer-events:none;
+z-index:9999;
+transform:translate(-50%,-50%);
+transition:transform .1s,background .2s;
+mix-blend-mode:difference;
+}
+
+#cursor-ring{
+position:fixed;
+width:36px;
+height:36px;
+border:2px solid rgba(245,158,11,.5);
+border-radius:50%;
+pointer-events:none;
+z-index:9998;
+transform:translate(-50%,-50%);
+transition:width .3s,height .3s,border-color .3s;
+mix-blend-mode:difference;
+}
+
+body:hover #cursor{opacity:1;}
+
+.cursor-hover #cursor{
+width:18px;
+height:18px;
+background:var(--accent-magenta);
+}
+
+.cursor-hover #cursor-ring{
+width:52px;
+height:52px;
+border-color:rgba(217,70,239,.6);
+}
+
+@media(pointer:coarse){
+#cursor,#cursor-ring{display:none;}
+body{cursor:auto;}
+}
+
+/* Hero */
+
+.hero-gradient{
+background:
+radial-gradient(circle at 20% 20%,#2a1a0f 0%,#000 60%),
+radial-gradient(circle at 80% 80%,#0f1f1d 0%,#000 60%);
+position:relative;
+overflow:hidden;
+}
+
+.hero-gradient::before{
+content:'';
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle at 30% 50%,rgba(245,158,11,.15) 0%,transparent 50%),
+radial-gradient(circle at 70% 50%,rgba(217,70,239,.15) 0%,transparent 50%);
+animation:gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift{
+0%,100%{transform:translate(0,0) rotate(0deg);}
+50%{transform:translate(10%,10%) rotate(180deg);}
+}
+
+.particle{
+position:absolute;
+border-radius:50%;
+filter:blur(80px);
+opacity:.4;
+animation:float 20s infinite ease-in-out;
+}
+
+.particle:nth-child(1){
+width:300px;
+height:300px;
+background:var(--accent-orange);
+top:10%;
+left:10%;
+animation-delay:0s;
+}
+
+.particle:nth-child(2){
+width:200px;
+height:200px;
+background:var(--accent-magenta);
+top:60%;
+right:10%;
+animation-delay:5s;
+}
+
+.particle:nth-child(3){
+width:250px;
+height:250px;
+background:var(--accent-coral);
+bottom:10%;
+left:20%;
+animation-delay:10s;
+}
+
+@keyframes float{
+0%,100%{transform:translate(0,0) scale(1);}
+33%{transform:translate(50px,-50px) scale(1.1);}
+66%{transform:translate(-30px,30px) scale(.9);}
+}
+
+.text-accent-gradient{
+background:linear-gradient(
+135deg,
+var(--accent-orange),
+var(--accent-coral),
+var(--accent-magenta)
+);
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+background-size:200% 200%;
+animation:gradientFlow 4s ease infinite;
+}
+
+@keyframes gradientFlow{
+0%,100%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+}
+
+/* Timeline */
+
+.timeline-container{position:relative;}
+
+.timeline-line{
+width:4px;
+background:linear-gradient(
+to bottom,
+var(--accent-orange) 0%,
+var(--accent-coral) 50%,
+var(--accent-magenta) 100%
+);
+position:absolute;
+left:20px;
+top:0;
+bottom:0;
+border-radius:2px;
+box-shadow:0 0 20px rgba(245,158,11,.6);
+}
+
+@media(min-width:768px){
+.timeline-line{
+left:50%;
+transform:translateX(-50%);
+}
+}
+
+.timeline-dot{
+position:absolute;
+width:20px;
+height:20px;
+background:var(--accent-orange);
+border-radius:50%;
+box-shadow:
+0 0 0 8px rgba(245,158,11,.2),
+0 0 20px rgba(245,158,11,.8);
+animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+0%,100%{
+transform:scale(1);
+box-shadow:
+0 0 0 8px rgba(245,158,11,.2),
+0 0 20px rgba(245,158,11,.8);
+}
+50%{
+transform:scale(1.1);
+box-shadow:
+0 0 0 12px rgba(245,158,11,.3),
+0 0 30px rgba(245,158,11,1);
+}
+}
+
+/* Cards */
+
+.premium-card{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.12);
+transition:all .6s cubic-bezier(.16,1,.3,1);
+position:relative;
+overflow:hidden;
+}
+
+.premium-card::before{
+content:'';
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.2),
+transparent
+);
+transition:left .8s;
+}
+
+.premium-card:hover::before{left:100%;}
+
+.premium-card:hover{
+border-color:var(--accent-orange);
+background:rgba(255,255,255,.1);
+transform:translateY(-8px) scale(1.01);
+box-shadow:0 24px 50px rgba(245,158,11,.35);
+}
+
+/* Section tag */
+
+.section-tag{
+font-size:11px;
+font-weight:900;
+letter-spacing:.3em;
+color:var(--accent-orange);
+text-transform:uppercase;
+margin-bottom:1.5rem;
+display:inline-block;
+position:relative;
+padding-left:24px;
+}
+
+.section-tag::before{
+content:'';
+position:absolute;
+left:0;
+top:50%;
+transform:translateY(-50%);
+width:14px;
+height:2px;
+background:var(--accent-orange);
+box-shadow:0 0 10px var(--accent-orange);
+}
+
+/* Navbar */
+
+nav{transition:all .3s ease;}
+
+nav.scrolled{
+background:rgba(0,0,0,.95);
+backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(245,158,11,.3);
+box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+/* Skill tags */
+
+.skill-tag{
+display:inline-block;
+padding:6px 14px;
+background:rgba(245,158,11,.15);
+border:1px solid rgba(245,158,11,.3);
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+color:var(--accent-orange);
+margin:4px;
+transition:all .3s;
+}
+
+.skill-tag:hover{
+background:rgba(245,158,11,.35);
+border-color:var(--accent-orange);
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(245,158,11,.4);
+}
+
+.stat-number{
+font-size:3.5rem;
+font-weight:900;
+line-height:1;
+background:linear-gradient(
+135deg,
+var(--accent-orange),
+var(--accent-magenta)
+);
+-webkit-background-clip:text;
+background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* CTA */
+
+.cta-button{
+position:relative;
+overflow:hidden;
+transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+
+.cta-button::before{
+content:'';
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.35),
+transparent
+);
+transition:left .6s;
+}
+
+.cta-button:hover::before{left:100%;}
+
+.cta-button:hover{
+transform:translateY(-4px);
+box-shadow:0 20px 40px rgba(245,158,11,.5);
+}
+
+/* SNS */
+
+.sns-btn{
+width:52px;
+height:52px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:rgba(255,255,255,.05);
+border:2px solid rgba(255,255,255,.1);
+transition:all .4s cubic-bezier(.16,1,.3,1);
+position:relative;
+}
+
+.sns-btn::after{
+content:'';
+position:absolute;
+width:100%;
+height:100%;
+border-radius:50%;
+border:3px solid var(--accent-orange);
+opacity:0;
+transform:scale(.7);
+transition:all .4s;
+}
+
+.sns-btn:hover::after{
+opacity:1;
+transform:scale(1.3);
+}
+
+.sns-btn:hover{
+background:var(--accent-orange);
+color:#000;
+transform:scale(1.15) rotate(8deg);
+box-shadow:0 10px 30px rgba(245,158,11,.6);
+}
+
+.journey-highlight{
+position:relative;
+padding-left:30px;
+}
+
+.journey-highlight::before{
+content:'→';
+position:absolute;
+left:0;
+color:var(--accent-orange);
+font-weight:900;
+font-size:20px;
+}
+
+.mobile-menu{
+transform:translateX(100%);
+transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+
+.mobile-menu.active{transform:translateX(0);}
+
+.scroll-indicator{
+animation:bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(10px);}
+}
+
+/* Language switcher */
+
+#lang-switcher{
+position:fixed;
+bottom:28px;
+right:28px;
+z-index:1000;
+display:flex;
+flex-direction:column;
+gap:8px;
+align-items:flex-end;
+}
+
+.lang-btn{
+width:48px;
+height:48px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,.15);
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:none;
+transition:all .3s;
+box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+
+.lang-btn:hover{
+transform:scale(1.15);
+border-color:var(--accent-orange);
+box-shadow:0 6px 24px rgba(245,158,11,.5);
+}
+
+.lang-btn.active{
+border-color:var(--accent-orange);
+box-shadow:
+0 0 0 3px rgba(245,158,11,.3),
+0 4px 20px rgba(245,158,11,.4);
+}
+
+.lang-toggle-main{
+width:52px;
+height:52px;
+border-radius:50%;
+border:2px solid var(--accent-orange);
+background:rgba(0,0,0,.85);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:none;
+box-shadow:0 4px 24px rgba(245,158,11,.5);
+transition:all .3s;
+}
+
+.lang-toggle-main:hover{transform:scale(1.1);}
+
+.lang-options{
+display:flex;
+flex-direction:column;
+gap:8px;
+align-items:center;
+overflow:hidden;
+max-height:0;
+transition:max-height .4s ease,opacity .4s ease;
+opacity:0;
+}
+
+.lang-options.open{
+max-height:200px;
+opacity:1;
+}
+
+/* Mobile improvements */
+
+@media(max-width:640px){
+
+.stat-number{font-size:2.5rem;}
+
+h1{font-size:3rem!important;}
+
+.premium-card:hover{
+transform:translateY(-4px) scale(1);
+}
+
+#lang-switcher{
+bottom:16px;
+right:16px;
+}
+
+.lang-btn,.lang-toggle-main{
+width:44px;
+height:44px;
+font-size:20px;
+}
+
+}
+
+/* i18n hidden */
+
+[data-lang]{display:none;}
+
+[data-lang].active{display:inline;}
+
+[data-lang-block]{display:none;}
+
+[data-lang-block].active{display:block;}
+
+[data-lang-flex]{display:none;}
+
+[data-lang-flex].active{display:flex;}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Language Switcher -->
+<div id="lang-switcher">
+  <div class="lang-options" id="lang-options">
+    <button class="lang-btn active" data-set-lang="ja" title="日本語">🇯🇵</button>
+    <button class="lang-btn" data-set-lang="en" title="English">🇬🇧</button>
+    <button class="lang-btn" data-set-lang="it" title="Italiano">🇮🇹</button>
+  </div>
+  <button class="lang-toggle-main" id="lang-toggle" title="Change language">🌐</button>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed w-full z-50 px-4 md:px-12 py-4 md:py-6 flex justify-between items-center bg-black/60 backdrop-blur-md border-b border-white/5">
+  <div class="text-lg md:text-2xl font-black tracking-tighter">
+    <span class="text-white">RIKKARUDORIKIZAEMON</span><span class="text-blue-500">.</span><span class="text-slate-400">N</span>
+  </div>
+  <div class="hidden md:flex space-x-8 text-[10px] font-bold tracking-widest uppercase text-slate-400">
+    <a href="#story" class="hover:text-white transition-colors duration-300">
+      <span data-lang="ja" class="active">ストーリー</span><span data-lang="en">Story</span><span data-lang="it">Storia</span>
+    </a>
+    <a href="#journey" class="hover:text-white transition-colors duration-300">
+      <span data-lang="ja" class="active">経歴</span><span data-lang="en">Journey</span><span data-lang="it">Percorso</span>
+    </a>
+    <a href="#projects" class="hover:text-white transition-colors duration-300">
+      <span data-lang="ja" class="active">開発実績</span><span data-lang="en">Projects</span><span data-lang="it">Progetti</span>
+    </a>
+    <a href="#skills" class="hover:text-white transition-colors duration-300">
+      <span data-lang="ja" class="active">技術スタック</span><span data-lang="en">Skills</span><span data-lang="it">Competenze</span>
+    </a>
+    <a href="#contact" class="hover:text-white transition-colors duration-300">
+      <span data-lang="ja" class="active">コンタクト</span><span data-lang="en">Contact</span><span data-lang="it">Contatti</span>
+    </a>
+  </div>
+  <button id="mobile-menu-btn" class="md:hidden text-white text-xl p-2"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-72 h-full bg-black/98 backdrop-blur-xl z-40 border-l border-white/10">
+  <div class="p-8">
+    <button id="close-menu" class="text-white mb-12 hover:text-blue-500 transition"><i class="fas fa-times text-3xl"></i></button>
+    <div class="flex flex-col space-y-8 text-base font-bold tracking-widest uppercase">
+      <a href="#story" class="text-slate-300 hover:text-white transition menu-link"><span data-lang="ja" class="active">ストーリー</span><span data-lang="en">Story</span><span data-lang="it">Storia</span></a>
+      <a href="#journey" class="text-slate-300 hover:text-white transition menu-link"><span data-lang="ja" class="active">経歴</span><span data-lang="en">Journey</span><span data-lang="it">Percorso</span></a>
+      <a href="#projects" class="text-slate-300 hover:text-white transition menu-link"><span data-lang="ja" class="active">開発実績</span><span data-lang="en">Projects</span><span data-lang="it">Progetti</span></a>
+      <a href="#skills" class="text-slate-300 hover:text-white transition menu-link"><span data-lang="ja" class="active">技術スタック</span><span data-lang="en">Skills</span><span data-lang="it">Competenze</span></a>
+      <a href="#contact" class="text-slate-300 hover:text-white transition menu-link"><span data-lang="ja" class="active">コンタクト</span><span data-lang="en">Contact</span><span data-lang="it">Contatti</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="min-h-screen flex items-center justify-center hero-gradient relative">
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  <div class="text-center z-10 px-6 max-w-5xl">
+    <div data-aos="fade-down" data-aos-duration="1000">
+      <span class="section-tag">
+        <span data-lang="ja" class="active">製造業DXエンジニア × フルスタック開発者</span>
+        <span data-lang="en">Manufacturing DX Engineer × Full-Stack Developer</span>
+        <span data-lang="it">Ingegnere DX per Produzione in linea × Sviluppatore Full-Stack</span>
+      </span>
+    </div>
+    <h1 class="text-5xl md:text-8xl lg:text-9xl font-black mb-8 leading-none tracking-tighter" data-aos="fade-up" data-aos-delay="200">
+      <span data-lang="ja" class="active">現場を、<br><span class="text-accent-gradient">コードで革新する</span></span>
+      <span data-lang="en">Innovating the<br><span class="text-accent-gradient">factory with code</span></span>
+      <span data-lang="it">Rivoluzionare<br><span class="text-accent-gradient">la fabbrica con codice</span></span>
+    </h1>
+    <p class="text-slate-300 max-w-3xl mx-auto text-base md:text-xl font-light leading-relaxed mb-12" data-aos="fade-up" data-aos-delay="400">
+      <span data-lang="ja" class="active">12年の製造現場経験 × 独学でのリスキリング × 多言語能力（日・伊・英）<br>現場の課題を深く理解し、ITで根本から解決する実戦型エンジニア</span>
+      <span data-lang="en">12 years on the factory environment × self-taught reskilling × trilingual (JP · IT · EN)<br>A hands-on engineer who deeply understands real-world problems and solves them with technology</span>
+      <span data-lang="it">12 anni di esperienza manifatturiera × formazione autonoma × trilingue (JP · IT · EN)<br>Un ingegnere operativo che capisce i problemi reali e li risolve con la tecnologia</span>
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center" data-aos="zoom-in" data-aos-delay="600">
+      <a href="#contact" class="cta-button px-8 md:px-10 py-4 md:py-5 bg-blue-600 text-white font-bold text-sm uppercase tracking-widest rounded-full shadow-2xl">
+        <i class="fas fa-envelope mr-2"></i>
+        <span data-lang="ja" class="active">お問い合わせ</span>
+        <span data-lang="en">Contact Me</span>
+        <span data-lang="it">Contattami</span>
+      </a>
+      <a href="#projects" class="px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-white/20 text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-white/10 transition-all duration-300">
+        <i class="fas fa-code mr-2"></i>
+        <span data-lang="ja" class="active">開発実績を見る</span>
+        <span data-lang="en">View Projects</span>
+        <span data-lang="it">Vedi Progetti</span>
+      </a>
+    </div>
+    <div class="mt-16 md:mt-20 scroll-indicator" data-aos="fade" data-aos-delay="1000">
+      <i class="fas fa-chevron-down text-blue-500 text-2xl"></i>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="py-16 md:py-20 bg-zinc-950 border-y border-white/5">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
+      <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-number">12+</div>
+        <p class="text-slate-400 text-xs md:text-sm mt-2 font-bold uppercase tracking-wider">
+          <span data-lang="ja" class="active">年の製造業経験</span>
+          <span data-lang="en">Years in Manufacturing</span>
+          <span data-lang="it">Anni in Fabbrica</span>
+        </p>
+      </div>
+      <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-number">3</div>
+        <p class="text-slate-400 text-xs md:text-sm mt-2 font-bold uppercase tracking-wider">
+          <span data-lang="ja" class="active">言語能力</span>
+          <span data-lang="en">Languages</span>
+          <span data-lang="it">Lingue</span>
+        </p>
+      </div>
+      <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+        <div class="stat-number">100%</div>
+        <p class="text-slate-400 text-xs md:text-sm mt-2 font-bold uppercase tracking-wider">
+          <span data-lang="ja" class="active">フルスクラッチ開発</span>
+          <span data-lang="en">Built from Scratch</span>
+          <span data-lang="it">Sviluppo da Zero</span>
+        </p>
+      </div>
+      <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+        <div class="stat-number">905</div>
+        <p class="text-slate-400 text-xs md:text-sm mt-2 font-bold uppercase tracking-wider">TOEIC Score</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section id="story" class="py-24 md:py-32 px-6 max-w-6xl mx-auto">
+  <div class="text-center mb-16 md:mb-20" data-aos="fade-up">
+    <span class="section-tag">
+      <span data-lang="ja" class="active">01. マイストーリー</span>
+      <span data-lang="en">01. My Story</span>
+      <span data-lang="it">01. La Mia Storia</span>
+    </span>
+    <h2 class="text-4xl md:text-6xl font-black mb-8 tracking-tight">
+      <span data-lang="ja" class="active">現場からエンジニアへの<br><span class="text-accent-gradient">転身物語</span></span>
+      <span data-lang="en">From the Factory<br><span class="text-accent-gradient">to Engineer</span></span>
+      <span data-lang="it">Dalla Fabbrica<br><span class="text-accent-gradient">all'Ingegneria</span></span>
+    </h2>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-start mb-16 md:mb-20">
+    <div class="premium-card p-8 md:p-12 rounded-[40px]" data-aos="fade-right" data-aos-delay="200">
+      <h3 class="text-2xl md:text-3xl font-black mb-6 text-blue-400">
+        <span data-lang="ja" class="active">イタリアから日本へ</span>
+        <span data-lang="en">From Italy to Japan</span>
+        <span data-lang="it">Dall'Italia al Giappone</span>
+      </h3>
+      <div class="space-y-4 text-slate-300 leading-relaxed">
+        <p>
+          <span data-lang="ja" class="active">1989年、イタリア生まれ。2008年にLiceo Marie Curieを卒業後、印刷所でのアルバイトやミニバスケットボールコーチとして働きながら、トリノの体育大学に進学しました。</span>
+          <span data-lang="en">Born in Italy in 1989. After graduating from Liceo Marie Curie in 2008, I worked part-time at a print shop and as a mini-basketball coach while attending the sports university in Turin.</span>
+          <span data-lang="it">Nato in Italia nel 1989. Dopo il diploma al Liceo Marie Curie nel 2008, ho lavorato in una tipografia e come allenatore di minibasket, frequentando contemporaneamente l'università di Scienze Motrie di Torino(SUISM).</span>
+        </p>
+        <p class="text-blue-300 font-semibold">
+          <span data-lang="ja" class="active">しかし、私の人生を大きく変える出会いが待っていました。</span>
+          <span data-lang="en">But a life-changing encounter was waiting for me.</span>
+          <span data-lang="it">Ma stava per arrivare un incontro che avrebbe cambiato la mia vita.</span>
+        </p>
+        <p>
+          <span data-lang="ja" class="active">2013年、縁あって来日し、グローブライド株式会社にアルバイトとして入社。製造現場での仕事に情熱を注ぎ、日本語も必死に学びました。</span>
+          <span data-lang="en">In 2013, I moved to Japan and joined Globeride Co., Ltd. as a part-timer. I threw myself into factory work and studied Japanese with everything I had.</span>
+          <span data-lang="it">Nel 2013 mi sono trasferito in Giappone ed entrai in Globeride Co., Ltd. come part-time. Mi buttai nel lavoro in fabbrica e studiai il giapponese con tutte le mie forze.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="premium-card p-8 md:p-12 rounded-[40px] border-l-4 border-l-purple-500" data-aos="fade-left" data-aos-delay="400">
+      <h3 class="text-2xl md:text-3xl font-black mb-6 text-purple-400">
+        <span data-lang="ja" class="active">現場から見えた課題</span>
+        <span data-lang="en">Problems I Saw on the Floor</span>
+        <span data-lang="it">I Problemi Visti in Fabbrica</span>
+      </h3>
+      <div class="space-y-4 text-slate-300 leading-relaxed">
+        <p>
+          <span data-lang="ja" class="active">契約社員、そして2017年に正社員へと登用される中で、<strong class="text-white">製造現場の非効率さ、紙ベースの管理、データの属人化</strong>といった課題を目の当たりにしました。</span>
+          <span data-lang="en">As I moved from contract to permanent employee in 2017, I saw firsthand the <strong class="text-white">inefficiencies, paper-based processes, and siloed data</strong> plaguing the shop floor.</span>
+          <span data-lang="it">Man mano che diventai dipendente a tempo determinato e poi fisso nel 2017, vidi in prima persona le <strong class="text-white">inefficienze, i processi cartacei e i dati isolati</strong> che affliggevano la produzione.</span>
+        </p>
+        <p class="text-purple-300 font-semibold">
+          <span data-lang="ja" class="active">「これをITで解決できないか？」</span>
+          <span data-lang="en">"Could IT solve this?"</span>
+          <span data-lang="it">"Si potrebbe risolvere con l'IT?"</span>
+        </p>
+        <p>
+          <span data-lang="ja" class="active">そう考えた私は、2019年頃から独学でプログラミングを開始。Pythonから始まり、Django、Flask、データベース設計、そしてAI技術まで、夜間・休日を使って学び続けました。</span>
+          <span data-lang="en">That question drove me to start teaching myself programming around 2019. From Python to Django, Flask, database design, and AI — I studied every night and weekend.</span>
+          <span data-lang="it">Quella domanda mi spinse a iniziare a programmare da autodidatta intorno al 2019. Da Python a Django, Flask, progettazione di database e AI — studiavo ogni notte e nei fine settimana.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="premium-card p-10 md:p-16 rounded-[50px] border-t-4 border-t-blue-500" data-aos="zoom-in" data-aos-delay="600">
+    <h3 class="text-3xl md:text-4xl font-black mb-8 text-center">
+      <span class="text-accent-gradient">
+        <span data-lang="ja" class="active">そして、システムを作った</span>
+        <span data-lang="en">And then, I built the system.</span>
+        <span data-lang="it">E poi, ho costruito il sistema.</span>
+      </span>
+    </h3>
+    <div class="space-y-6 text-slate-300 text-lg leading-relaxed max-w-4xl mx-auto">
+      <p>
+        <span data-lang="ja" class="active">独学で得た知識を武器に、<strong class="text-white">製造現場の生産管理システムをゼロから設計・開発・導入</strong>しました。要件定義、データベース設計、UI/UX、バックエンド、フロントエンド、デプロイ、保守まで——全て一人で完遂。</span>
+        <span data-lang="en">Armed with self-taught knowledge, I <strong class="text-white">designed, built, and deployed a production management system from scratch</strong>. Requirements, database design, UI/UX, backend, frontend, deployment, maintenance — all completed solo.</span>
+        <span data-lang="it">Armato delle mie conoscenze da autodidatta, ho <strong class="text-white">progettato, costruito e distribuito un sistema di gestione della produzione da zero</strong>. Requisiti, database, UI/UX, backend, frontend, deploy e manutenzione — tutto da solo.</span>
+      </p>
+      <p class="text-blue-300 font-bold text-xl text-center py-4">
+        <span data-lang="ja" class="active">「できない理由」ではなく「どうすれば実現できるか」を常に考える。</span>
+        <span data-lang="en">I always focused on "Not why it can't be done, but how to make it happen."</span>
+        <span data-lang="it">Focalizzato sempre con questa mentalita': "Non perché non si può fare, ma come farlo accadere."</span>
+      </p>
+      <p class="text-slate-400 text-base italic border-l-4 border-blue-500 pl-6 mt-8">
+        <span data-lang="ja" class="active">この経験が、私の「現場理解 × 技術力 × 課題解決能力」の原点です。</span>
+        <span data-lang="en">This experience is the foundation of my "field knowledge × technical skill × problem-solving ability."</span>
+        <span data-lang="it">Questa esperienza è la base del mio approccio: "conoscenza del campo × competenza tecnica × capacità di problem-solving."</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Journey Timeline -->
+<section id="journey" class="py-24 md:py-32 bg-zinc-950 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-20 md:mb-24" data-aos="zoom-in">
+      <span class="section-tag">
+        <span data-lang="ja" class="active">02. キャリアジャーニー</span>
+        <span data-lang="en">02. Career Journey</span>
+        <span data-lang="it">02. Percorso di Carriera</span>
+      </span>
+      <h2 class="text-4xl md:text-6xl font-black tracking-tight">
+        <span class="text-accent-gradient">
+          <span data-lang="ja" class="active">成長の軌跡</span>
+          <span data-lang="en">The Growth Timeline</span>
+          <span data-lang="it">La Traiettoria di Crescita</span>
+        </span>
+      </h2>
+    </div>
+
+    <div class="timeline-container relative">
+      <div class="timeline-line"></div>
+
+      <!-- 2003-2008 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 pl-12 md:pl-0">
+          <span class="text-blue-400 font-black text-xl md:text-2xl block mb-2">2003 – 2008</span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">Liceo Marie Curie</h4>
+          <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">
+            <span data-lang="ja" class="active">イタリア・グルリアスコ</span>
+            <span data-lang="en">Grugliasco, Italy</span>
+            <span data-lang="it">Grugliasco, Italia</span>
+          </p>
+        </div>
+        <div class="md:w-1/2 md:pl-16 relative pl-12 md:pl-16">
+          <div class="timeline-dot absolute left-[2px] md:-left-[58px] top-4" style="background:var(--accent-blue);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl">
+            <p class="text-slate-300 leading-relaxed text-sm md:text-base">
+              <span data-lang="ja" class="active">イタリアで高校を卒業。基礎教育を修了し、将来のグローバルキャリアの第一歩を踏み出す。</span>
+              <span data-lang="en">Completed high school in Italy. Finished foundational education and took the first step toward a global career.</span>
+              <span data-lang="it">Diploma di maturità in Italia. Completata la formazione di base e primo passo verso una carriera globale.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2008-2012 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row-reverse items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pl-16 text-left mb-6 md:mb-0 pl-12">
+          <span class="text-purple-400 font-black text-xl md:text-2xl block mb-2">2008 – 2012</span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">
+            <span data-lang="ja" class="active">多彩な経験</span>
+            <span data-lang="en">Diverse Experiences</span>
+            <span data-lang="it">Esperienze Diverse</span>
+          </h4>
+          <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">
+            <span data-lang="ja" class="active">印刷所 × バスケコーチ × 大学</span>
+            <span data-lang="en">Print Shop × Basketball Coach × University</span>
+            <span data-lang="it">Tipografia × Allenatore × Università</span>
+          </p>
+        </div>
+        <div class="md:w-1/2 md:pr-16 relative pl-12 md:pl-0">
+          <div class="timeline-dot absolute left-[2px] md:-right-[58px] md:left-auto top-4" style="background:var(--accent-purple);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl">
+            <p class="text-slate-300 leading-relaxed text-sm md:text-base">
+              <span data-lang="ja" class="active">トリノの印刷所でアルバイトをしながら、ミニバスケットボールコーチとしても活動。SUISM Torino（体育大学）に進学するも、新たな挑戦を求めて中退を決意。</span>
+              <span data-lang="en">Worked part-time at a Turin print shop while coaching mini-basketball. Enrolled at SUISM Torino (sports university) but decided to drop out in search of a new challenge.</span>
+              <span data-lang="it">Lavorai part-time in una tipografia a Torino mentre allenavo il minibasket. Mi iscrissi alla SUISM Torino ma decisi di abbandonare in cerca di nuove sfide.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2013 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 pl-12 md:pl-0">
+          <span class="text-pink-400 font-black text-xl md:text-2xl block mb-2">
+            <span data-lang="ja" class="active">2013年9月</span>
+            <span data-lang="en">September 2013</span>
+            <span data-lang="it">Settembre 2013</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">
+            <span data-lang="ja" class="active">日本への挑戦</span>
+            <span data-lang="en">The Japan Challenge</span>
+            <span data-lang="it">La Sfida del Giappone</span>
+          </h4>
+        </div>
+        <div class="md:w-1/2 md:pl-16 relative pl-12 md:pl-16">
+          <div class="timeline-dot absolute left-[2px] md:-left-[58px] top-4" style="background:var(--accent-pink);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl border-pink-500/30">
+            <p class="text-slate-300 leading-relaxed text-sm md:text-base">
+              <span data-lang="ja" class="active">日本での新しい挑戦を決意し来日。まもなくグローブライド株式会社にアルバイトとして入社。言葉の壁を乗り越え、製造現場での仕事に全力投球。</span>
+              <span data-lang="en">Decided to take on a new challenge in Japan. Soon joined Globeride Co., Ltd. as a part-timer, overcame the language barrier, and threw myself fully into factory work.</span>
+              <span data-lang="it">Decisi di accettare la sfida di vivere in Giappone. Entrai presto in Globeride Co., Ltd. come part-time, superai la barriera linguistica e mi immersi completamente nel lavoro in fabbrica.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2015 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row-reverse items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pl-16 text-left mb-6 md:mb-0 pl-12">
+          <span class="text-cyan-400 font-black text-xl md:text-2xl block mb-2">
+            <span data-lang="ja" class="active">2015年11月</span>
+            <span data-lang="en">November 2015</span>
+            <span data-lang="it">Novembre 2015</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">Globeride Co., Ltd.</h4>
+          <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">
+            <span data-lang="ja" class="active">契約社員として登用</span>
+            <span data-lang="en">Promoted to Contract Employee</span>
+            <span data-lang="it">Promosso a Contratto Determinato</span>
+          </p>
+        </div>
+        <div class="md:w-1/2 md:pr-16 relative pl-12 md:pl-0">
+          <div class="timeline-dot absolute left-[2px] md:-right-[58px] md:left-auto top-4" style="background:var(--accent-cyan);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl border-cyan-500/30">
+            <p class="text-slate-300 leading-relaxed text-sm md:text-base">
+              <span data-lang="ja" class="active">2年間の献身的な努力が実を結び、契約社員として登用。日本語能力試験N2を取得し、業務でのコミュニケーション力も向上。</span>
+              <span data-lang="en">Two years of dedicated effort paid off with a promotion to contract employee. Also passed the JLPT N2, significantly improving workplace communication.</span>
+              <span data-lang="it">Due anni di impegno dedicato si tradussero in una promozione a contratto determinato. Superai anche il JLPT N2, migliorando notevolmente la comunicazione sul lavoro.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2017 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 pl-12 md:pl-0">
+          <span class="text-blue-400 font-black text-xl md:text-2xl block mb-2">
+            <span data-lang="ja" class="active">2017年4月</span>
+            <span data-lang="en">April 2017</span>
+            <span data-lang="it">Aprile 2017</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">Globeride Co., Ltd.</h4>
+          <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">
+            <span data-lang="ja" class="active">正社員として登用</span>
+            <span data-lang="en">Promoted to Full-Time Employee</span>
+            <span data-lang="it">Assunto a Tempo Indeterminato</span>
+          </p>
+        </div>
+        <div class="md:w-1/2 md:pl-16 relative pl-12 md:pl-16">
+          <div class="timeline-dot absolute left-[2px] md:-left-[58px] top-4" style="background:var(--accent-blue);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl border-blue-500/30">
+            <p class="text-slate-300 leading-relaxed mb-3 text-sm md:text-base">
+              <span data-lang="ja" class="active">正社員として正式に認められ、より大きな責任を担うように。しかし同時に、<strong class="text-white">紙ベースの業務、非効率な管理体制</strong>という現場の課題がより鮮明に見えてくる。</span>
+              <span data-lang="en">Officially recognized as a full-time employee with greater responsibilities. At the same time, the problems of <strong class="text-white">paper-based work and inefficient management</strong> became even clearer.</span>
+              <span data-lang="it">Riconosciuto ufficialmente come dipendente a tempo indeterminato con maggiori responsabilità. Allo stesso tempo, i problemi del <strong class="text-white">lavoro cartaceo e della gestione inefficiente</strong> diventarono ancora più evidenti.</span>
+            </p>
+            <p class="text-blue-300 font-semibold italic text-sm">
+              <span data-lang="ja" class="active">"このままでいいのか？ ITで何とかできないか？"</span>
+              <span data-lang="en">"Is this good enough? Can IT fix this?"</span>
+              <span data-lang="it">"Va bene così? Si può risolvere con l'IT?"</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2019 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row-reverse items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pl-16 text-left mb-6 md:mb-0 pl-12">
+          <span class="text-purple-400 font-black text-xl md:text-2xl block mb-2">
+            <span data-lang="ja" class="active">2019年頃〜</span>
+            <span data-lang="en">Around 2019 –</span>
+            <span data-lang="it">Intorno al 2019 –</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">
+            <span data-lang="ja" class="active">独学でのリスキリング開始</span>
+            <span data-lang="en">Self-Taught Reskilling Begins</span>
+            <span data-lang="it">Inizio della Riqualificazione</span>
+          </h4>
+        </div>
+        <div class="md:w-1/2 md:pr-16 relative pl-12 md:pl-0">
+          <div class="timeline-dot absolute left-[2px] md:-right-[58px] md:left-auto top-4" style="background:var(--accent-purple);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl border-purple-500/30">
+            <p class="text-slate-300 leading-relaxed mb-3 text-sm md:text-base">
+              <span data-lang="ja" class="active"><strong class="text-white">Pythonから始まり、Django、Flask、PostgreSQL、AI技術（YOLO）まで</strong>——業務外の時間を全て学習に注ぎ込む。</span>
+              <span data-lang="en"><strong class="text-white">From Python to Django, Flask, PostgreSQL and AI (YOLO)</strong> — poured every spare hour into learning.</span>
+              <span data-lang="it"><strong class="text-white">Da Python a Django, Flask, PostgreSQL e AI (YOLO)</strong> — dedicai ogni ora libera all'apprendimento.</span>
+            </p>
+            <div class="mt-3 space-y-2">
+              <div class="journey-highlight text-slate-300 text-sm">
+                <span data-lang="ja" class="active">Python基礎 → データベース設計</span>
+                <span data-lang="en">Python basics → Database design</span>
+                <span data-lang="it">Basi Python → Progettazione DB</span>
+              </div>
+              <div class="journey-highlight text-slate-300 text-sm">
+                <span data-lang="ja" class="active">Django/Flask → Webアプリケーション開発</span>
+                <span data-lang="en">Django/Flask → Web application development</span>
+                <span data-lang="it">Django/Flask → Sviluppo applicazioni web</span>
+              </div>
+              <div class="journey-highlight text-slate-300 text-sm">
+                <span data-lang="ja" class="active">OpenCV/YOLO → 画像処理・AI技術</span>
+                <span data-lang="en">OpenCV/YOLO → Image processing & AI</span>
+                <span data-lang="it">OpenCV/YOLO → Elaborazione immagini e AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2021-2024 -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 pl-12 md:pl-0">
+          <span class="text-accent-gradient font-black text-2xl md:text-3xl block mb-3">2021 – 2024</span>
+          <h4 class="text-3xl md:text-4xl font-black mb-3">
+            <span data-lang="ja" class="active">生産管理システム 開発・導入</span>
+            <span data-lang="en">Production Management System</span>
+            <span data-lang="it">Sistema di Gestione della Produzione</span>
+          </h4>
+        </div>
+        <div class="md:w-1/2 md:pl-16 relative pl-12 md:pl-16">
+          <div class="timeline-dot absolute left-[2px] md:-left-[58px] top-6" style="background:linear-gradient(135deg,var(--accent-blue),var(--accent-purple));width:24px;height:24px;"></div>
+          <div class="premium-card p-6 md:p-10 rounded-[40px] border-2 border-blue-500/40 bg-gradient-to-br from-blue-950/20 to-purple-950/20">
+            <h5 class="text-xl md:text-2xl font-black text-blue-300 mb-4">🚀
+              <span data-lang="ja" class="active">人生を変えたプロジェクト</span>
+              <span data-lang="en">The Project That Changed Everything</span>
+              <span data-lang="it">Il Progetto che Ha Cambiato Tutto</span>
+            </h5>
+            <div class="bg-black/40 p-4 rounded-2xl border border-blue-500/20 my-4">
+              <p class="text-blue-300 font-bold mb-2">🎯
+                <span data-lang="ja" class="active">成果</span>
+                <span data-lang="en">Results</span>
+                <span data-lang="it">Risultati</span>
+              </p>
+              <ul class="space-y-2 text-sm text-slate-300">
+                <li>✓ <span data-lang="ja" class="active">紙ベースの記録作業を完全デジタル化</span><span data-lang="en">Fully digitized all paper-based records</span><span data-lang="it">Digitalizzazione completa dei record cartacei</span></li>
+                <li>✓ <span data-lang="ja" class="active">リアルタイムでの生産データ収集・可視化</span><span data-lang="en">Real-time production data collection and visualization</span><span data-lang="it">Raccolta e visualizzazione dati di produzione in tempo reale</span></li>
+                <li>✓ <span data-lang="ja" class="active">入力ミス削減と管理工数の大幅削減</span><span data-lang="en">Reduced input errors and drastically cut management overhead</span><span data-lang="it">Riduzione degli errori di input e drastica riduzione del carico gestionale</span></li>
+                <li>✓ <span data-lang="ja" class="active">現場主導での継続的な改善サイクル確立</span><span data-lang="en">Established a continuous improvement cycle led by the floor team</span><span data-lang="it">Ciclo di miglioramento continuo guidato dal team di produzione</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2021 TOEIC -->
+      <div class="mb-20 md:mb-32 flex flex-col md:flex-row-reverse items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pl-16 text-left mb-6 md:mb-0 pl-12">
+          <span class="text-pink-400 font-black text-xl md:text-2xl block mb-2">
+            <span data-lang="ja" class="active">2021年11月</span>
+            <span data-lang="en">November 2021</span>
+            <span data-lang="it">Novembre 2021</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mb-2">TOEIC 905</h4>
+          <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">
+            <span data-lang="ja" class="active">トリリンガルとしての完成</span>
+            <span data-lang="en">Trilingual Achievement Unlocked</span>
+            <span data-lang="it">Traguardo Trilingue Raggiunto</span>
+          </p>
+        </div>
+        <div class="md:w-1/2 md:pr-16 relative pl-12 md:pl-0">
+          <div class="timeline-dot absolute left-[2px] md:-right-[58px] md:left-auto top-4" style="background:var(--accent-pink);"></div>
+          <div class="premium-card p-5 md:p-8 rounded-3xl border-pink-500/30">
+            <p class="text-slate-300 leading-relaxed mb-3 text-sm md:text-base">
+              <span data-lang="ja" class="active">イタリア語（ネイティブ）、日本語（JLPT N2）に加え、英語でも高いスコアを取得。<strong class="text-white">技術 × 多言語能力</strong>で、グローバルな環境でも即戦力に。</span>
+              <span data-lang="en">Added English (TOEIC 905) to native Italian and JLPT N2 Japanese. <strong class="text-white">Tech skills × multilingual ability</strong> — ready to contribute in any global environment.</span>
+              <span data-lang="it">Aggiunsi l'inglese (TOEIC 905) all'italiano nativo e al giapponese JLPT N2. <strong class="text-white">Competenze tecniche × capacità multilingue</strong> — pronto a contribuire in qualsiasi ambiente globale.</span>
+            </p>
+            <div class="flex gap-3 mt-4 flex-wrap">
+              <span class="skill-tag">🇮🇹 Italiano</span>
+              <span class="skill-tag">🇯🇵 日本語</span>
+              <span class="skill-tag">🇬🇧 English</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2025 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center w-full" data-aos="fade-up">
+        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 pl-12 md:pl-0">
+          <span class="text-accent-gradient font-black text-2xl md:text-3xl block mb-3">2025 –
+            <span data-lang="ja" class="active">現在</span>
+            <span data-lang="en">Present</span>
+            <span data-lang="it">Presente</span>
+          </span>
+          <h4 class="text-3xl md:text-4xl font-black mb-3">
+            <span data-lang="ja" class="active">新たな挑戦へ</span>
+            <span data-lang="en">Toward the Next Challenge</span>
+            <span data-lang="it">Verso la Prossima Sfida</span>
+          </h4>
+        </div>
+        <div class="md:w-1/2 md:pl-16 relative pl-12 md:pl-16">
+          <div class="timeline-dot absolute left-[2px] md:-left-[58px] top-6" style="background:linear-gradient(135deg,var(--accent-blue),var(--accent-pink));width:28px;height:28px;animation:pulse 1.5s ease-in-out infinite;"></div>
+          <div class="premium-card p-6 md:p-10 rounded-[40px] border-2 border-blue-500/50 bg-gradient-to-br from-blue-950/30 to-pink-950/30">
+            <div class="space-y-3 text-slate-300 leading-relaxed text-sm md:text-base">
+              <p>
+                <span data-lang="ja" class="active">システムは安定稼働中。しかし、<strong class="text-white">この安定に甘んじることなく、自ら切り拓いた技術力を武器に、新しい環境で挑戦したい</strong>。</span>
+                <span data-lang="en">The system is running stably. But rather than settling for that, I want to <strong class="text-white">take the skills I've forged and challenge myself in a new environment</strong>.</span>
+                <span data-lang="it">Il sistema funziona in modo stabile. Ma piuttosto che accontentarmi, voglio <strong class="text-white">usare le competenze che ho assimilato per affrontare nuove sfide</strong>.</span>
+              </p>
+              <p class="text-pink-300 italic font-semibold">
+                <span data-lang="ja" class="active">"人生の転機となるような、熱いプロジェクトに参加したい。"</span>
+                <span data-lang="en">"I want to join a project that becomes a turning point in my life."</span>
+                <span data-lang="it">"Voglio partecipare a un progetto che diventi un punto di svolta nella mia vita."</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects" class="py-24 md:py-32 px-6 max-w-7xl mx-auto">
+  <div class="text-center mb-20 md:mb-24" data-aos="fade-up">
+    <span class="section-tag">
+      <span data-lang="ja" class="active">03. 開発実績</span>
+      <span data-lang="en">03. Projects</span>
+      <span data-lang="it">03. Progetti</span>
+    </span>
+    <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+      <span class="text-accent-gradient">
+        <span data-lang="ja" class="active">プロダクト & プロジェクト</span>
+        <span data-lang="en">Products & Projects</span>
+        <span data-lang="it">Prodotti & Progetti</span>
+      </span>
+    </h2>
+    <p class="text-slate-400 max-w-3xl mx-auto text-base md:text-lg">
+      <span data-lang="ja" class="active">業務システムから個人開発まで、全て実際に動作する実用的なアプリケーション</span>
+      <span data-lang="en">From enterprise systems to personal projects — each one is a working, practical application.</span>
+      <span data-lang="it">Dai sistemi aziendali ai progetti personali — ogni applicazione è funzionante e pratica.</span>
+    </p>
+  </div>
+
+  <!-- Main project -->
+  <div class="premium-card p-8 md:p-16 rounded-[50px] mb-12 md:mb-16 border-t-4 border-t-blue-500" data-aos="zoom-in" data-aos-delay="200">
+    <div class="flex items-start justify-between mb-8 flex-wrap gap-4">
+      <div>
+        <span class="text-blue-500 text-xs font-black uppercase tracking-wider">
+          <span data-lang="ja" class="active">メインプロジェクト / 業務システム</span>
+          <span data-lang="en">Main Project / Enterprise System</span>
+          <span data-lang="it">Progetto Principale / Sistema Aziendale</span>
+        </span>
+        <h3 class="text-3xl md:text-5xl font-black mt-2 mb-4">
+          <span data-lang="ja" class="active">工場向け生産管理システム</span>
+          <span data-lang="en">Factory Production Management System</span>
+          <span data-lang="it">Sistema di Gestione della Produzione</span>
+        </h3>
+        <p class="text-slate-400 text-base md:text-lg">
+          <span data-lang="ja" class="active">フルスクラッチ開発 | 段階拡張型アーキテクチャ</span>
+          <span data-lang="en">Built from scratch | Incrementally scalable architecture</span>
+          <span data-lang="it">Sviluppato da zero | Architettura a espansione incrementale</span>
+        </p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <span class="skill-tag">Python</span><span class="skill-tag">Django</span>
+        <span class="skill-tag">Flask</span><span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">Tkinter</span>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 md:gap-10 mb-10">
+      <div>
+        <h4 class="text-lg md:text-xl font-black text-blue-400 mb-4">📋
+          <span data-lang="ja" class="active">プロジェクト概要</span>
+          <span data-lang="en">Project Overview</span>
+          <span data-lang="it">Panoramica del Progetto</span>
+        </h4>
+        <p class="text-slate-300 leading-relaxed mb-4 text-sm md:text-base">
+          <span data-lang="ja" class="active">製造現場の業務フローに基づき、要件定義から設計・実装・導入・保守までを一貫して担当。Windows Server上でサーバー集中型実行環境を構築し、各端末へのインストール不要な運用を実現。</span>
+          <span data-lang="en">Handled everything from requirements gathering to design, implementation, deployment, and maintenance based on actual factory workflows. Built a server-centric environment on Windows Server so no installation is needed on individual terminals.</span>
+          <span data-lang="it">Gestito tutto, dalla raccolta dei requisiti alla progettazione, implementazione, distribuzione e manutenzione, basandosi sui flussi di lavoro reali della fabbrica. Costruita un'architettura server-centrica su Windows Server, eliminando la necessità di installazioni sui singoli terminali.</span>
+        </p>
+        <div class="bg-black/40 p-5 rounded-2xl border border-blue-500/20">
+          <p class="text-blue-300 font-bold mb-3">🎯
+            <span data-lang="ja" class="active">担当範囲（全て1人で完遂）</span>
+            <span data-lang="en">Scope (completed solo)</span>
+            <span data-lang="it">Responsabilità (completate da solo)</span>
+          </p>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li>✓ <span data-lang="ja" class="active">現場ヒアリング・要件定義</span><span data-lang="en">Field interviews & requirements definition</span><span data-lang="it">Interviste sul campo & definizione requisiti</span></li>
+            <li>✓ <span data-lang="ja" class="active">ワークフロー起点のDB設計</span><span data-lang="en">Workflow-driven DB design</span><span data-lang="it">Progettazione DB orientata al flusso di lavoro</span></li>
+            <li>✓ <span data-lang="ja" class="active">UI/UX設計（Tkinter）</span><span data-lang="en">UI/UX design (Tkinter)</span><span data-lang="it">Design UI/UX (Tkinter)</span></li>
+            <li>✓ <span data-lang="ja" class="active">バックエンド開発（Django/Flask）</span><span data-lang="en">Backend development (Django/Flask)</span><span data-lang="it">Sviluppo backend (Django/Flask)</span></li>
+            <li>✓ <span data-lang="ja" class="active">デプロイ・運用・保守</span><span data-lang="en">Deploy, operations & maintenance</span><span data-lang="it">Deploy, operazioni e manutenzione</span></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-lg md:text-xl font-black text-purple-400 mb-4">💡
+          <span data-lang="ja" class="active">技術的な工夫</span>
+          <span data-lang="en">Technical Highlights</span>
+          <span data-lang="it">Punti Tecnici di Rilievo</span>
+        </h4>
+        <div class="space-y-4">
+          <div class="bg-purple-950/20 p-4 rounded-2xl border border-purple-500/20 text-sm text-slate-300">
+            <p class="font-bold text-purple-300 mb-2">🔧 <span data-lang="ja" class="active">保守性の向上</span><span data-lang="en">Improved Maintainability</span><span data-lang="it">Manutenibilità Migliorata</span></p>
+            <p><span data-lang="ja" class="active">サーバー集中型実行環境により、端末管理とアップデート工数を最小化。</span><span data-lang="en">Server-centric execution minimizes terminal management and update costs.</span><span data-lang="it">L'esecuzione centralizzata riduce al minimo la gestione dei terminali e i costi di aggiornamento.</span></p>
+          </div>
+          <div class="bg-blue-950/20 p-4 rounded-2xl border border-blue-500/20 text-sm text-slate-300">
+            <p class="font-bold text-blue-300 mb-2">📈 <span data-lang="ja" class="active">段階的な拡張性</span><span data-lang="en">Incremental Scalability</span><span data-lang="it">Scalabilità Incrementale</span></p>
+            <p><span data-lang="ja" class="active">Django（コア機能）とFlask（軽量API）を役割分担。既存システムを止めずに新機能を追加可能。</span><span data-lang="en">Django handles core features; Flask serves as a lightweight API. New features can be added without stopping the existing system.</span><span data-lang="it">Django gestisce le funzioni core; Flask funge da API leggera. Si possono aggiungere nuove funzioni senza fermare il sistema esistente.</span></p>
+          </div>
+          <div class="bg-pink-950/20 p-4 rounded-2xl border border-pink-500/20 text-sm text-slate-300">
+            <p class="font-bold text-pink-300 mb-2">🎨 <span data-lang="ja" class="active">現場ファーストのUI</span><span data-lang="en">Floor-First UI</span><span data-lang="it">UI Orientata alla Fabbrica</span></p>
+            <p><span data-lang="ja" class="active">Tkinterで作業者向けの直感的なデスクトップUI。現場の声を反映した使いやすい設計。</span><span data-lang="en">Intuitive Tkinter desktop UI designed around worker feedback.</span><span data-lang="it">UI desktop intuitiva in Tkinter progettata attorno al feedback dei lavoratori.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gradient-to-r from-blue-950/30 to-purple-950/30 p-6 md:p-8 rounded-3xl border border-blue-500/30">
+      <h4 class="text-xl md:text-2xl font-black text-blue-300 mb-4">🏆
+        <span data-lang="ja" class="active">成果・効果</span>
+        <span data-lang="en">Results & Impact</span>
+        <span data-lang="it">Risultati & Impatto</span>
+      </h4>
+      <div class="grid grid-cols-3 gap-4 md:gap-6 text-center">
+        <div><div class="text-3xl md:text-4xl font-black text-blue-400 mb-1">100%</div><p class="text-slate-300 text-xs md:text-sm"><span data-lang="ja" class="active">ペーパーレス化達成</span><span data-lang="en">Paperless achieved</span><span data-lang="it">Paperless raggiunto</span></p></div>
+        <div><div class="text-3xl md:text-4xl font-black text-purple-400 mb-1">60%+</div><p class="text-slate-300 text-xs md:text-sm"><span data-lang="ja" class="active">管理工数削減</span><span data-lang="en">Overhead reduced</span><span data-lang="it">Carico ridotto</span></p></div>
+        <div><div class="text-3xl md:text-4xl font-black text-pink-400 mb-1">24/7</div><p class="text-slate-300 text-xs md:text-sm"><span data-lang="ja" class="active">リアルタイムデータ収集</span><span data-lang="en">Real-time data</span><span data-lang="it">Dati in tempo reale</span></p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal projects -->
+  <div class="grid md:grid-cols-2 gap-8 md:gap-10">
+    <div class="premium-card p-8 md:p-10 rounded-[40px] flex flex-col" data-aos="fade-up" data-aos-delay="300">
+      <div class="flex justify-between items-start mb-6 flex-wrap gap-3">
+        <div>
+          <span class="text-purple-500 text-xs font-black uppercase tracking-wider">
+            <span data-lang="ja" class="active">個人開発 / AI・ML</span>
+            <span data-lang="en">Personal Project / AI · ML</span>
+            <span data-lang="it">Progetto Personale / AI · ML</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mt-2">YOLO Annotation Tool</h4>
+        </div>
+        <span class="px-4 py-2 bg-purple-600/20 text-purple-400 border border-purple-500/30 rounded-full text-xs font-bold">AI / ML</span>
+      </div>
+      <p class="text-slate-300 leading-relaxed mb-6 text-sm md:text-base">
+        <span data-lang="ja" class="active">YOLO形式の物体検出・セグメンテーション・OBBに対応したWebベースツール。<strong class="text-white">「手動アノテーション → 学習 → 自動ラベリング」の反復サイクルを一つのアプリで完結</strong>させ、データセット作成を大幅に効率化。</span>
+        <span data-lang="en">A web-based tool for YOLO-format object detection, segmentation, and OBB annotation. <strong class="text-white">The full cycle — manual annotation → training → auto-labeling — is completed in a single app</strong>, dramatically speeding up dataset creation.</span>
+        <span data-lang="it">Uno strumento web per annotazioni YOLO: rilevamento oggetti, segmentazione e OBB. <strong class="text-white">L'intero ciclo — annotazione manuale → addestramento → etichettatura automatica — si completa in un'unica app</strong>, velocizzando notevolmente la creazione di dataset.</span>
+      </p>
+      <div class="bg-black/40 p-5 rounded-2xl border border-purple-500/20 mb-6">
+        <p class="font-bold text-purple-300 mb-3">🚀
+          <span data-lang="ja" class="active">主な機能</span>
+          <span data-lang="en">Key Features</span>
+          <span data-lang="it">Funzionalità Principali</span>
+        </p>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li>• <span data-lang="ja" class="active">カメラリアルタイムフィード（4K対応）</span><span data-lang="en">Real-time camera feed (4K supported)</span><span data-lang="it">Feed video in tempo reale (supporto 4K)</span></li>
+          <li>• <span data-lang="ja" class="active">マルチタスク対応アノテーション</span><span data-lang="en">Multi-task annotation support</span><span data-lang="it">Supporto annotazione multi-task</span></li>
+          <li>• <span data-lang="ja" class="active">自動ラベリング & 学習パイプライン</span><span data-lang="en">Auto-labeling & training pipeline</span><span data-lang="it">Etichettatura automatica & pipeline di training</span></li>
+          <li>• <span data-lang="ja" class="active">PWA対応（オフライン利用可能）</span><span data-lang="en">PWA support (offline capable)</span><span data-lang="it">Supporto PWA (utilizzo offline)</span></li>
+        </ul>
+      </div>
+      <div class="mt-auto">
+        <a href="https://github.com/Rikiza89/Labeling_for_YOLO" target="_blank" class="block w-full py-4 text-center bg-purple-600 hover:bg-purple-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50">
+          <i class="fab fa-github mr-2"></i>GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="premium-card p-8 md:p-10 rounded-[40px] flex flex-col" data-aos="fade-up" data-aos-delay="400">
+      <div class="flex justify-between items-start mb-6 flex-wrap gap-3">
+        <div>
+          <span class="text-pink-500 text-xs font-black uppercase tracking-wider">
+            <span data-lang="ja" class="active">個人開発 / WEB APP</span>
+            <span data-lang="en">Personal Project / Web App</span>
+            <span data-lang="it">Progetto Personale / App Web</span>
+          </span>
+          <h4 class="text-2xl md:text-3xl font-black mt-2">
+            <span data-lang="ja" class="active">家族向け家計簿アプリ</span>
+            <span data-lang="en">Family Budget App</span>
+            <span data-lang="it">App di Bilancio Familiare</span>
+          </h4>
+        </div>
+        <span class="px-4 py-2 bg-pink-600/20 text-pink-400 border border-pink-500/30 rounded-full text-xs font-bold">Django</span>
+      </div>
+      <p class="text-slate-300 leading-relaxed mb-6 text-sm md:text-base">
+        <span data-lang="ja" class="active"><strong class="text-white">「2タップで記録完了」</strong>を掲げるモバイルファースト家計簿。Gemini AIによる具体的アクションの提案、最大60年先の将来予測、多言語対応（日/伊/英）など、<strong class="text-white">実運用を前提とした設計</strong>。</span>
+        <span data-lang="en">A mobile-first budget tracker with a <strong class="text-white">"recorded in 2 taps"</strong> philosophy. Features Gemini AI suggestions, forecasts up to 60 years out, and multilingual support (JP/IT/EN) — <strong class="text-white">designed for real daily use</strong>.</span>
+        <span data-lang="it">Un budget tracker mobile-first con filosofia <strong class="text-white">"registrato in 2 tocchi"</strong>. Funzioni: suggerimenti AI Gemini, previsioni fino a 60 anni, supporto multilingue (JP/IT/EN) — <strong class="text-white">progettato per l'uso quotidiano reale</strong>.</span>
+      </p>
+      <div class="bg-black/40 p-5 rounded-2xl border border-pink-500/20 mb-6">
+        <p class="font-bold text-pink-300 mb-3">✨
+          <span data-lang="ja" class="active">特徴的な機能</span>
+          <span data-lang="en">Standout Features</span>
+          <span data-lang="it">Funzionalità di Rilievo</span>
+        </p>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li>• <span data-lang="ja" class="active">AI支出分析（Gemini API）</span><span data-lang="en">AI spending analysis (Gemini API)</span><span data-lang="it">Analisi spese AI (Gemini API)</span></li>
+          <li>• <span data-lang="ja" class="active">定期取引の一括記録</span><span data-lang="en">Bulk recurring transaction logging</span><span data-lang="it">Registrazione in blocco di transazioni ricorrenti</span></li>
+          <li>• <span data-lang="ja" class="active">貯蓄と支出の分離管理</span><span data-lang="en">Separate savings & expenses tracking</span><span data-lang="it">Gestione separata risparmio & spese</span></li>
+          <li>• <span data-lang="ja" class="active">多言語対応（Django i18n）</span><span data-lang="en">Multilingual (Django i18n)</span><span data-lang="it">Multilingue (Django i18n)</span></li>
+        </ul>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mt-auto">
+        <a href="https://mydemoapplication.pythonanywhere.com" target="_blank" class="py-4 text-center bg-pink-600 hover:bg-pink-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300">
+          <i class="fas fa-external-link-alt mr-2"></i>Demo
+        </a>
+        <a href="https://github.com/Rikiza89/family-budget-app" target="_blank" class="py-4 text-center bg-transparent border-2 border-pink-500/50 text-pink-400 hover:bg-pink-950/30 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300">
+          <i class="fab fa-github mr-2"></i>GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="py-24 md:py-32 bg-zinc-950 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 md:mb-20" data-aos="fade-up">
+      <span class="section-tag">
+        <span data-lang="ja" class="active">04. 技術スタック</span>
+        <span data-lang="en">04. Tech Stack</span>
+        <span data-lang="it">04. Stack Tecnologico</span>
+      </span>
+      <h2 class="text-4xl md:text-6xl font-black tracking-tight">
+        <span class="text-accent-gradient">
+          <span data-lang="ja" class="active">使える武器</span>
+          <span data-lang="en">My Arsenal</span>
+          <span data-lang="it">Il Mio Arsenale</span>
+        </span>
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div class="premium-card p-6 md:p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center"><i class="fas fa-code text-blue-400 text-xl"></i></div><h3 class="text-xl font-black"><span data-lang="ja" class="active">言語</span><span data-lang="en">Languages</span><span data-lang="it">Linguaggi</span></h3></div>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between"><span class="text-slate-300">Python</span><div class="flex gap-1"><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-blue-500"></div></div></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">JS / HTML / CSS</span><div class="flex gap-1"><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-blue-400"></div></div></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">VBA</span><div class="flex gap-1"><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-blue-500"></div><div class="w-3 h-3 rounded-full bg-slate-600"></div></div></div>
+        </div>
+      </div>
+      <div class="premium-card p-6 md:p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-purple-600/20 flex items-center justify-center"><i class="fas fa-layer-group text-purple-400 text-xl"></i></div><h3 class="text-xl font-black"><span data-lang="ja" class="active">フレームワーク</span><span data-lang="en">Frameworks</span><span data-lang="it">Framework</span></h3></div>
+        <div class="flex flex-wrap gap-2"><span class="skill-tag">Django</span><span class="skill-tag">Flask</span><span class="skill-tag">Ultralytics</span><span class="skill-tag">PyTorch</span><span class="skill-tag">Tkinter</span><span class="skill-tag">PyQt</span><span class="skill-tag">PySide</span><span class="skill-tag">Tailwind CSS</span></div>
+      </div>
+      <div class="premium-card p-6 md:p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="300">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-pink-600/20 flex items-center justify-center"><i class="fas fa-brain text-pink-400 text-xl"></i></div><h3 class="text-xl font-black">AI / <span data-lang="ja" class="active">データ</span><span data-lang="en">Data</span><span data-lang="it">Dati</span></h3></div>
+        <div class="flex flex-wrap gap-2"><span class="skill-tag">YOLO</span><span class="skill-tag">Ollama</span><span class="skill-tag">OpenCV</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">SQLite</span></div>
+      </div>
+      <div class="premium-card p-6 md:p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="400">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-cyan-600/20 flex items-center justify-center"><i class="fas fa-server text-cyan-400 text-xl"></i></div><h3 class="text-xl font-black"><span data-lang="ja" class="active">インフラ</span><span data-lang="en">Infrastructure</span><span data-lang="it">Infrastruttura</span></h3></div>
+        <div class="flex flex-wrap gap-2"><span class="skill-tag">Windows Server</span><span class="skill-tag">Raspberry Pi 4</span><span class="skill-tag">Raspberry Pi Zero 2 WH</span></div>
+      </div>
+      <div class="premium-card p-6 md:p-8 rounded-3xl" data-aos="fade-up" data-aos-delay="500">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center"><i class="fas fa-tools text-blue-400 text-xl"></i></div><h3 class="text-xl font-black"><span data-lang="ja" class="active">開発ツール</span><span data-lang="en">Dev Tools</span><span data-lang="it">Strumenti</span></h3></div>
+        <div class="flex flex-wrap gap-2"><span class="skill-tag">GitHub</span><span class="skill-tag">VS Code</span><span class="skill-tag">Claude AI</span><span class="skill-tag">Claude Code</span><span class="skill-tag">ChatGPT</span><span class="skill-tag">Gemini</span></div>
+      </div>
+      <div class="premium-card p-6 md:p-8 rounded-3xl border-2 border-blue-500/30" data-aos="fade-up" data-aos-delay="600">
+        <div class="flex items-center gap-3 mb-6"><div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600/30 to-purple-600/30 flex items-center justify-center"><i class="fas fa-language text-blue-400 text-xl"></i></div><h3 class="text-xl font-black"><span data-lang="ja" class="active">言語能力</span><span data-lang="en">Human Languages</span><span data-lang="it">Lingue</span></h3></div>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3"><span class="text-2xl">🇮🇹</span><div><p class="font-bold text-white">Italiano</p><p class="text-xs text-slate-400"><span data-lang="ja" class="active">ネイティブ</span><span data-lang="en">Native</span><span data-lang="it">Madrelingua</span></p></div></div>
+          <div class="flex items-center gap-3"><span class="text-2xl">🇯🇵</span><div><p class="font-bold text-white">日本語</p><p class="text-xs text-slate-400">JLPT N2</p></div></div>
+          <div class="flex items-center gap-3"><span class="text-2xl">🇬🇧</span><div><p class="font-bold text-white">English</p><p class="text-xs text-slate-400">TOEIC 905</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Strengths -->
+<section class="py-24 md:py-32 px-6 max-w-6xl mx-auto">
+  <div class="text-center mb-16 md:mb-20" data-aos="fade-up">
+    <span class="section-tag">
+      <span data-lang="ja" class="active">05. 強み</span>
+      <span data-lang="en">05. Strengths</span>
+      <span data-lang="it">05. Punti di Forza</span>
+    </span>
+    <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-6">
+      <span class="text-accent-gradient">
+        <span data-lang="ja" class="active">私の3つの武器</span>
+        <span data-lang="en">My 3 Core Strengths</span>
+        <span data-lang="it">I Miei 3 Punti di Forza</span>
+      </span>
+    </h2>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+    <div class="premium-card p-8 md:p-10 rounded-[40px] border-l-4 border-l-blue-500" data-aos="fade-up" data-aos-delay="100">
+      <div class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center mb-6"><i class="fas fa-lightbulb text-blue-400 text-3xl"></i></div>
+      <h3 class="text-xl md:text-2xl font-black mb-4 text-blue-400"><span data-lang="ja" class="active">課題発見力</span><span data-lang="en">Problem Discovery</span><span data-lang="it">Scoperta dei Problemi</span></h3>
+      <p class="text-slate-300 leading-relaxed text-sm md:text-base"><span data-lang="ja" class="active">12年間の製造現場経験から培った<strong class="text-white">「現場の課題を本質から理解する力」</strong>。単に言われたことをやるのではなく、業務フローを観察し、真の課題を特定できる。</span><span data-lang="en">Twelve years on the factory floor built my ability to <strong class="text-white">understand problems at their root</strong>. I don't just do what I'm told — I observe workflows and identify the real issue.</span><span data-lang="it">Dodici anni in fabbrica hanno costruito la mia capacità di <strong class="text-white">comprendere i problemi alla radice</strong>. Non mi limito a fare ciò che mi viene detto — osservo i flussi di lavoro e identifico il vero problema.</span></p>
+    </div>
+    <div class="premium-card p-8 md:p-10 rounded-[40px] border-l-4 border-l-purple-500" data-aos="fade-up" data-aos-delay="200">
+      <div class="w-16 h-16 rounded-full bg-purple-600/20 flex items-center justify-center mb-6"><i class="fas fa-laptop-code text-purple-400 text-3xl"></i></div>
+      <h3 class="text-xl md:text-2xl font-black mb-4 text-purple-400"><span data-lang="ja" class="active">技術実装力</span><span data-lang="en">Technical Execution</span><span data-lang="it">Esecuzione Tecnica</span></h3>
+      <p class="text-slate-300 leading-relaxed text-sm md:text-base"><span data-lang="ja" class="active">独学でのリスキリングで習得した<strong class="text-white">「アイデアを実際に動く形にする力」</strong>。業務システムから個人開発まで、完全に動作するプロダクトを作り上げる実践的スキル。</span><span data-lang="en">Self-taught reskilling gave me the ability to <strong class="text-white">turn ideas into working products</strong>. From enterprise systems to personal projects, I build things that actually run.</span><span data-lang="it">La riqualificazione autodidatta mi ha dato la capacità di <strong class="text-white">trasformare le idee in prodotti funzionanti</strong>. Da sistemi aziendali a progetti personali, costruisco cose che funzionano davvero.</span></p>
+    </div>
+    <div class="premium-card p-8 md:p-10 rounded-[40px] border-l-4 border-l-pink-500" data-aos="fade-up" data-aos-delay="300">
+      <div class="w-16 h-16 rounded-full bg-pink-600/20 flex items-center justify-center mb-6"><i class="fas fa-globe text-pink-400 text-3xl"></i></div>
+      <h3 class="text-xl md:text-2xl font-black mb-4 text-pink-400"><span data-lang="ja" class="active">グローバル対応力</span><span data-lang="en">Global Adaptability</span><span data-lang="it">Adattabilità Globale</span></h3>
+      <p class="text-slate-300 leading-relaxed text-sm md:text-base"><span data-lang="ja" class="active">3言語（日・伊・英）を駆使した<strong class="text-white">「多様な環境で価値を発揮する力」</strong>。技術だけでなく、異文化コミュニケーションでも貢献できる。</span><span data-lang="en">Three languages (JP · IT · EN) give me the ability to <strong class="text-white">create value in diverse environments</strong>. I contribute not just technically but across cultures.</span><span data-lang="it">Tre lingue (JP · IT · EN) mi permettono di <strong class="text-white">creare valore in ambienti diversi</strong>. Contribuisco non solo tecnicamente, ma anche tra culture diverse.</span></p>
+    </div>
+  </div>
+  <div class="mt-12 md:mt-16 premium-card p-10 md:p-12 rounded-[50px] border-2 border-blue-500/40 bg-gradient-to-br from-blue-950/20 to-purple-950/20" data-aos="zoom-in" data-aos-delay="400">
+    <h3 class="text-2xl md:text-3xl font-black mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+      <span data-lang="ja" class="active">最大の強み：完結力</span>
+      <span data-lang="en">Greatest Strength: End-to-End Ownership</span>
+      <span data-lang="it">Punto di Forza Principale: Proprietà End-to-End</span>
+    </h3>
+    <p class="text-slate-300 text-base md:text-lg leading-relaxed text-center max-w-4xl mx-auto">
+      <span data-lang="ja" class="active">現場ヒアリング → 要件定義 → 設計 → 実装 → デプロイ → 保守まで、<br><strong class="text-white text-xl">全てのフェーズを一人で完遂できる「完結力」</strong></span>
+      <span data-lang="en">From field interviews → requirements → design → implementation → deploy → maintenance,<br><strong class="text-white text-xl">I can own every phase solo.</strong></span>
+      <span data-lang="it">Dalle interviste sul campo → requisiti → progettazione → implementazione → deploy → manutenzione,<br><strong class="text-white text-xl">posso gestire ogni fase da solo.</strong></span>
+    </p>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-24 md:py-32 bg-black px-6 border-t border-white/5">
+  <div class="max-w-5xl mx-auto text-center">
+    <div data-aos="fade-up">
+      <span class="section-tag">
+        <span data-lang="ja" class="active">07. Netで会いましょう</span>
+        <span data-lang="en">07. Let's Connect</span>
+        <span data-lang="it">07. Connettiamoci</span>
+      </span>
+      <h2 class="text-5xl md:text-7xl font-black mb-8 tracking-tighter">
+        LET'S <span class="text-accent-gradient">CONNECT</span>
+      </h2>
+    </div>
+    <div class="flex justify-center gap-5 md:gap-6 mb-16 md:mb-20" data-aos="zoom-in" data-aos-delay="200">
+      <a href="https://github.com/Rikiza89" target="_blank" class="sns-btn" title="GitHub"><i class="fab fa-github text-xl"></i></a>
+      <a href="https://qiita.com/rikiza1989" target="_blank" class="sns-btn" title="Qiita"><i class="fas fa-pen-nib text-xl"></i></a>
+
+    </div>
+
+    <div class="mt-16 md:mt-20" data-aos="fade-up" data-aos-delay="600">
+      <p class="text-slate-600 text-xs font-bold uppercase tracking-[0.5em] mb-4">© 2026 Rikkarudorikizaemon Nakata.</p>
+      <p class="text-slate-700 text-xs italic">
+        <span data-lang="ja" class="active">このポートフォリオは全て実際の経験と実績に基づいて作成されています</span>
+        <span data-lang="en">This portfolio is based entirely on real experience and actual results.</span>
+        <span data-lang="it">Questo portfolio è basato interamente su esperienze reali e risultati concreti.</span>
+              
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=rikiza89.rikiza89.github.io.v2">
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// AOS init
+AOS.init({duration:1000,once:false,mirror:true,easing:'ease-out-cubic',offset:50});
+
+// --- Custom cursor ---
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.premium-card,.skill-tag,.sns-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+
+// --- Navbar scroll ---
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.scrollY>100);});
+
+// --- Mobile menu ---
+const mobileMenuBtn=document.getElementById('mobile-menu-btn');
+const mobileMenu=document.getElementById('mobile-menu');
+const closeMenuBtn=document.getElementById('close-menu');
+mobileMenuBtn.addEventListener('click',()=>mobileMenu.classList.add('active'));
+closeMenuBtn.addEventListener('click',()=>mobileMenu.classList.remove('active'));
+document.querySelectorAll('.menu-link').forEach(l=>l.addEventListener('click',()=>mobileMenu.classList.remove('active')));
+
+// --- Smooth scroll ---
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});
+});
+
+// --- Parallax ---
+window.addEventListener('scroll',()=>{
+  const s=window.pageYOffset;
+  document.querySelectorAll('.particle').forEach((el,i)=>{el.style.transform=`translateY(${s*(.5+i*.2)}px)`;});
+});
+
+// --- Language switcher ---
+let currentLang='ja';
+const langToggle=document.getElementById('lang-toggle');
+const langOptions=document.getElementById('lang-options');
+
+langToggle.addEventListener('click',()=>{langOptions.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!e.target.closest('#lang-switcher'))langOptions.classList.remove('open');});
+
+function setLang(lang){
+  currentLang=lang;
+  // update span visibility
+  document.querySelectorAll('[data-lang]').forEach(el=>{
+    el.classList.toggle('active',el.dataset.lang===lang);
+  });
+  // update active button
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.setLang===lang);
+  });
+  // update html lang attr
+  document.documentElement.lang=lang==='ja'?'ja':lang==='it'?'it':'en';
+  langOptions.classList.remove('open');
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>setLang(btn.dataset.setLang));
+});
+</script>
+</body>
+</html>
