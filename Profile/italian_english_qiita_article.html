@@ -48,8 +48,8 @@
 </header>
 
 <div class="lang-tabs">
-  <button class="lang-btn active" onclick="switchLang('en')">🇬🇧 English</button>
-  <button class="lang-btn" onclick="switchLang('it')">🇮🇹 Italiano</button>
+  <button class="lang-btn" onclick="switchLang('en')">🇬🇧 English</button>
+  <button class="lang-btn active" onclick="switchLang('it')">🇮🇹 Italiano</button>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ ENGLISH -->
@@ -299,7 +299,9 @@ my_project_v2_final_FINAL_this_is_really_the_last_one.py</pre>
 
 <h2>Capitolo 0 — L'inizio: VBA e 7 anni nell'industria</h2>
 <p>Prima di parlare di ChatGPT, partiamo dall'inizio.</p>
-<p>Circa dieci anni fa lavoravo in un'azienda manifatturiera. Ogni giorno: le stesse attività, gli stessi report, lo stesso lavoro su foglio di calcolo. Un giorno ho pensato — <em>"non si può automatizzare tutto questo?"</em></p>
+<p>Circa dieci anni fa lavoravo in un'azienda manifatturiera. 
+  Ogni giorno: le stesse attività, gli stessi report, lo stesso lavoro su foglio di calcolo. 
+  Un giorno ho pensato — <em>"non si può automatizzare tutto questo?"</em></p>
 <p>È lì che ho scoperto il <strong>registratore di macro di Excel</strong>.</p>
 
 <h3>Passo 1 — Registra e Osserva</h3>
@@ -312,11 +314,12 @@ my_project_v2_final_FINAL_this_is_really_the_last_one.py</pre>
     Range("A2:A100").Select
     Selection.Sort Key1:=Range("A2"), Order1:=xlAscending
 End Sub</pre>
-<p>All'inizio sembrava un incantesimo. Ma dopo aver registrato e riletto decine di volte, i pattern emergevano. <code>Range</code> indica una cella. <code>Sort</code> significa ordinare. Pezzo per pezzo, il significato diventava chiaro.</p>
+<p>All'inizio sembrava un incantesimo. Ma dopo aver registrato e riletto decine di volte, i pattern emergevano. 
+  <code>Range</code> indica una cella. <code>Sort</code> significa ordinare. Pezzo per pezzo, il significato diventava chiaro.</p>
 
 <h3>Passo 2 — Ottimizza ciò che hai registrato</h3>
-<p>Il codice generato dal registratore è verboso: seleziona, poi agisce sulla selezione. Si può scrivere in modo molto più conciso:</p>
-<pre>' Registrato (verboso)
+<p>Il codice generato dal registratore è ridonadante: seleziona, poi agisce sulla selezione. Si può scrivere in modo molto più conciso:</p>
+<pre>' Registrato (ridondante)
 Range("A1").Select
 Selection.Copy
 Range("B1").Select
@@ -350,16 +353,22 @@ End Sub</pre>
 </ul>
 
 <h3>L'inglese come superpotere</h3>
-<p>Un grande vantaggio: <strong>sapevo l'inglese</strong>. Le informazioni di più alta qualità nel mondo della programmazione — Stack Overflow, documentazione ufficiale, issue su GitHub — sono scritte in inglese. Leggerle direttamente ha moltiplicato le risorse disponibili.</p>
-<blockquote><strong>Consiglio per chi studia da solo:</strong> Impara l'inglese insieme alla programmazione. Insieme, accelerano l'apprendimento in modo drastico.</blockquote>
+<p>Un grande vantaggio: <strong>sapevo l'inglese</strong>. Le informazioni di più alta qualità nel mondo della programmazione — Stack Overflow, 
+  documentazione ufficiale, issue su GitHub — sono scritte in inglese. Leggerle direttamente ha moltiplicato le risorse disponibili.</p>
+<blockquote><strong>Consiglio per chi studia da solo:</strong> 
+  Impara l'inglese insieme alla programmazione. Insieme, accelerano l'apprendimento in modo drastico.</blockquote>
 
 <h3>La storia del Tetris su Excel</h3>
-<p>A un certo punto mi sono ritrovato a costruire <em>Tetris dentro Excel</em>. Celle come pixel, VBA per il game loop — funzionava davvero. Il codice era orribile (nomi di variabili senza senso, nesting profondo, logica copia-incollata cinque volte, spaghetti con <code>GoTo</code>), ma <strong>girava</strong>.</p>
-<blockquote>Nessuno scrive codice perfetto fin dall'inizio. L'importante è <strong>spedire qualcosa che funziona</strong>. Refactoring si fa dopo. Prima si consegna.</blockquote>
+<p>Ad un certo punto mi sono ritrovato a costruire <em>Tetris dentro Excel</em>. Celle come pixel, VBA per il game loop — funzionava davvero. 
+  Il codice era orribile (nomi di variabili senza senso, nesting profondo, logica copia-incollata cinque volte, spaghetti con <code>GoTo</code>), 
+  ma <strong>girava</strong>.</p>
+<blockquote>Nessuno scrive codice perfetto fin dall'inizio. L'importante è <strong>creare qualcosa che funziona</strong>. 
+  Il refactoring si fa dopo. Prima si consegna.</blockquote>
 <p>Quel successo — costruire Tetris da zero, da solo — è diventato il carburante per tutto il resto.</p>
 
 <h2>Capitolo 1 — La scoperta di Python: 3 anni di apprendistato</h2>
-<p>I limiti del VBA sono diventati evidenti col tempo. Viveva dentro Excel. Non poteva fare web scraping, chiamare API, parlare con altri sistemi. Era <em>magia potente rinchiusa in una scatola</em>.</p>
+<p>I limiti del VBA sono diventati evidenti col tempo. Viveva dentro Excel. 
+  Non poteva fare web scraping, chiamare API, parlare con altri sistemi. Era <em>magia potente rinchiusa in una scatola</em>.</p>
 <p>Poi ho scoperto <strong>Python</strong> — tre anni prima che arrivasse ChatGPT.</p>
 <p>Il mondo che Python apriva era enorme. Ma i muri dell'autoapprendimento erano alti:</p>
 <ul>
@@ -378,13 +387,15 @@ mio_progetto_v2_finale_FINALE_questa_e_davvero_lultima.py</pre>
 
 <h2>Capitolo 2 — Arriva ChatGPT: tutto accelera</h2>
 <p>Novembre 2022. ChatGPT viene lanciato. Mi sono iscritto il primo giorno.</p>
-<p>Per qualcuno che aveva imparato da solo per un decennio con Google e la documentazione, è stata una <strong>rivoluzione</strong>. Sette anni di VBA, tre di Python — e all'improvviso al mio workflow era stato aggiunto un <em>motore turbo</em>.</p>
+<p>Per qualcuno che aveva imparato da solo per un decennio con Google e la documentazione, è stata una <strong>rivoluzione</strong>. 
+  Sette anni di VBA, tre di Python — e all'improvviso al mio workflow era stato aggiunto un <em>motore turbo</em>.</p>
 <ul>
   <li><em>"Traduci questo codice Python in VBA"</em> — confronto istantaneo</li>
   <li><em>"Cosa significa questo errore?"</em> — 10 secondi invece di 30 minuti su Stack Overflow</li>
   <li><em>"Si può scrivere in modo più efficiente?"</em> — suggerimenti di refactoring immediati</li>
 </ul>
-<p>Dopo dieci anni di lotta solitaria, finalmente avevo <strong>qualcosa con cui potevo dialogare</strong>. Le risposte iniziali erano ancora imprecise e richiedevano verifica — ma mi diceva <em>cosa cercare</em>, e questo era già metà del lavoro.</p>
+<p>Dopo dieci anni di lotta solitaria, finalmente avevo <strong>qualcosa con cui potevo dialogare</strong>. 
+  Le risposte iniziali erano ancora imprecise e richiedevano verifica — ma mi diceva <em>cosa cercare</em>, e questo era già metà del lavoro.</p>
 
 <h2>Capitolo 3 — L'odissea degli strumenti AI</h2>
 <p>Una volta preso dalla febbre di ChatGPT, ho provato tutto:</p>
