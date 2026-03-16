@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From VBA to Claude Code</title>
+<style>
+  :root {
+    --bg:#0f1117;--surface:#1a1d27;--border:#2e3350;
+    --accent:#7c6af7;--accent2:#56cfb2;--accent3:#f7a35c;
+    --text:#e2e4f0;--muted:#8b90a8;--code-bg:#12151f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.8}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:2.5rem 1.5rem 2rem;text-align:center}
+  header h1{font-size:clamp(1.3rem,3vw,1.9rem);color:#fff;margin-bottom:.4rem}
+  header p{color:var(--muted);font-size:.9rem}
+  .lang-tabs{display:flex;justify-content:center;gap:.75rem;padding:1rem;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+  .lang-btn{padding:.4rem 1.6rem;border-radius:999px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:.92rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .lang-btn:hover{border-color:var(--accent);color:var(--text)}
+  .lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .lang-section{display:none;max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+  .lang-section.active{display:block}
+  h2{font-size:1.45rem;color:var(--accent);margin:2.5rem 0 .9rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+  h3{font-size:1.1rem;color:var(--accent2);margin:1.6rem 0 .65rem}
+  p{margin-bottom:1rem}
+  ul,ol{padding-left:1.4rem;margin-bottom:1rem}
+  li{margin-bottom:.3rem}
+  strong{color:#fff}
+  em{color:var(--accent3);font-style:normal;font-weight:600}
+  a{color:var(--accent2)}
+  blockquote{border-left:3px solid var(--accent);margin:1.2rem 0;padding:.75rem 1.1rem;background:var(--surface);border-radius:0 8px 8px 0;color:var(--muted)}
+  blockquote strong{color:var(--accent3)}
+  pre{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1.3rem;overflow-x:auto;margin:1rem 0;font-family:'Cascadia Code','Fira Code',monospace;font-size:.85rem;line-height:1.6}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+  th{background:var(--surface);color:var(--accent2);padding:.6rem .9rem;text-align:left;border:1px solid var(--border)}
+  td{padding:.55rem .9rem;border:1px solid var(--border);vertical-align:top}
+  tr:nth-child(even) td{background:#151821}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.88rem;color:var(--muted)}
+  .note strong{color:var(--accent3)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>From VBA to Claude Code: A Self-Taught Engineer's 10-Year Journey</h1>
+  <p>Available in English and Italian &nbsp;·&nbsp; <a href="https://qiita.com" target="_blank">← Original article (日本語) on Qiita</a></p>
+</header>
+
+<div class="lang-tabs">
+  <button class="lang-btn active" onclick="switchLang('en')">🇬🇧 English</button>
+  <button class="lang-btn" onclick="switchLang('it')">🇮🇹 Italiano</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ ENGLISH -->
+<div id="en" class="lang-section active">
+
+<h2>Introduction</h2>
+<p>This article is the <strong>travel log</strong> of a self-taught programmer who switched careers from manufacturing into tech.</p>
+<p>From the day I wrote my first Excel macro, through discovering Python, the shock of ChatGPT, a tour of countless AI tools, to finally landing on <em>Claude Code</em> — this isn't a technical tutorial. Read it as one person's <strong>ten-year growth story</strong>.</p>
+
+<h2>Chapter 0 — Where It All Started: VBA and 7 Years in Manufacturing</h2>
+<p>Before we talk about ChatGPT, let me start at the beginning.</p>
+<p>About ten years ago I was working on a factory floor. Every day: the same tasks, the same reports, the same spreadsheet work. One day I thought — <em>"can't I automate this?"</em></p>
+<p>That's when I discovered <strong>Excel's macro recorder</strong>.</p>
+
+<h3>Step 1 — Record & Watch</h3>
+<p>Press record, do your thing, press stop. Open the VBA editor and stare at the generated code.</p>
+<pre>Sub Macro1()
+    Range("A1").Select
+    Selection.Copy
+    Range("B1").Select
+    ActiveSheet.Paste
+    Range("A2:A100").Select
+    Selection.Sort Key1:=Range("A2"), Order1:=xlAscending
+End Sub</pre>
+<p>It looked like a spell at first. But after recording and re-reading it dozens of times, patterns emerged. <code>Range</code> means a cell. <code>Sort</code> means sort. One by one, the meaning became clear.</p>
+
+<h3>Step 2 — Optimise What You Recorded</h3>
+<p>Macro-recorded code is verbose — it selects, then acts on the selection. You can write it far more concisely:</p>
+<pre>' Recorded (verbose)
+Range("A1").Select
+Selection.Copy
+Range("B1").Select
+ActiveSheet.Paste
+
+' Optimised
+Range("A1").Copy Destination:=Range("B1")</pre>
+<p>This <em>record → read → optimise</em> cycle was my entire VBA curriculum. Excel itself was my teacher.</p>
+
+<h3>Step 3 — Write It Yourself</h3>
+<p>Eventually I needed things the recorder couldn't produce: <code>If</code> branches, <code>For</code> loops, <code>Do While</code> conditions. Real programming.</p>
+<pre>Sub ProcessData()
+    Dim i As Long, lastRow As Long
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 2 To lastRow
+        If Cells(i, 3).Value > 100 Then
+            Cells(i, 5).Value = "Needs Review"
+            Cells(i, 5).Interior.Color = vbYellow
+        End If
+    Next i
+End Sub</pre>
+
+<h3>7 Years of Builds</h3>
+<ul>
+  <li><strong>Daily report automation</strong> — a 30-minute morning chore became a single button click</li>
+  <li><strong>Inventory management mini-system</strong> — Excel-based, but it worked on the floor</li>
+  <li><strong>Month-end aggregation macros</strong> — hours of work cut to minutes</li>
+  <li><strong>Simple dashboards</strong> — "visibility" for management</li>
+  <li><strong>UserForm input screens</strong> — friendly GUIs for non-technical colleagues</li>
+  <li><strong>Boss's workflow semi-automated</strong> — a multi-day task reduced to a few clicks</li>
+</ul>
+
+<h3>English as a Superpower</h3>
+<p>One big advantage: <strong>I was good at English</strong>. The highest-quality programming information — Stack Overflow, official docs, GitHub issues — is written in English. Being able to read it directly multiplied the information available to me many times over.</p>
+<blockquote><strong>Advice for self-taught engineers:</strong> Learn English alongside coding. The two together accelerate independent learning dramatically.</blockquote>
+
+<h3>The Excel Tetris Story</h3>
+<p>At some point I found myself building <em>Tetris inside Excel</em>. Cells as pixels, VBA handling the game loop — it actually worked. The code was awful (meaningless variable names, deep nesting, logic copy-pasted five times, <code>GoTo</code> spaghetti), but it <strong>ran</strong>.</p>
+<blockquote>Nobody writes perfect code from day one. What matters is <strong>shipping something that works</strong>. Refactor later. Ship first.</blockquote>
+<p>That success — building Tetris from scratch, alone — became the fuel for everything that followed.</p>
+
+<h2>Chapter 1 — Discovering Python: 3 Years of Apprenticeship</h2>
+<p>VBA's limits became clear over time. It lived inside Excel. It couldn't scrape the web, call APIs, or talk to other systems. It was a <em>powerful spell locked inside one box</em>.</p>
+<p>Then I found <strong>Python</strong> — three years before ChatGPT arrived.</p>
+<p>The world Python opened up was enormous. But the self-taught walls were high:</p>
+<ul>
+  <li>Three days lost to environment setup (<em>what is pip? what is venv?</em>)</li>
+  <li>Tutorials that refused to run despite following them exactly</li>
+  <li>Long English error messages with no obvious starting point</li>
+  <li>VBA habits bleeding into Python style</li>
+</ul>
+<p>I kept writing every day regardless — after work, late at night, weekends. Alone. My version control was embarrassing:</p>
+<pre>my_project_v1.py
+my_project_v2.py
+my_project_v2_final.py
+my_project_v2_final_FINAL.py
+my_project_v2_final_FINAL_this_is_really_the_last_one.py</pre>
+<p>I knew Git existed. <code>branch</code>, <code>merge</code>, <code>rebase</code> were alien vocabulary.</p>
+
+<h2>Chapter 2 — ChatGPT Arrives: Everything Accelerates</h2>
+<p>November 2022. ChatGPT launched. I signed up on day one.</p>
+<p>For someone who had spent a decade learning alone via Google and documentation, it felt like a <strong>revolution</strong>. Seven years of VBA, three of Python — and suddenly a <em>turbo engine</em> had been bolted onto my workflow.</p>
+<ul>
+  <li><em>"Translate this Python snippet into VBA"</em> — instant comparison</li>
+  <li><em>"What does this error mean?"</em> — 10 seconds instead of 30 minutes on Stack Overflow</li>
+  <li><em>"Can this be written more efficiently?"</em> — immediate refactoring suggestions</li>
+</ul>
+<p>After ten years of fighting alone, I finally had <strong>something I could hold a conversation with</strong>. Early responses were still error-prone and needed verification — but it told me <em>what to search for</em>, which was half the battle.</p>
+
+<h2>Chapter 3 — The AI Tool Odyssey</h2>
+<p>Once ChatGPT had me hooked, I tried everything:</p>
+<h3>Google Gemini</h3>
+<p>Strong on recent information due to search integration. Good at explaining code. Tended to drift in long, deep conversations.</p>
+<h3>Qwen</h3>
+<p>Alibaba's multilingual model. Handled English, Japanese, and Chinese mixed queries well. I actually built the foundation of my largest project with this tool.</p>
+<h3>DeepSeek</h3>
+<p>Excellent for algorithm-heavy code generation. Consistently produced "oh, nice" moments for competitive-programming-style problems.</p>
+<h3>HuggingFace Models</h3>
+<p>A different world entirely — hundreds of models to experiment with (Llama, Mistral, Falcon…). Running models locally deepened my understanding of how AI actually works.</p>
+<blockquote><strong>Key lesson:</strong> Every tool has a specialty and a ceiling. No AI is universal. Knowing each tool's strengths compounds your learning speed.</blockquote>
+
+<h2>Chapter 4 — First Contact with Claude: Great, But Unusable</h2>
+<p>I tried Claude early. My honest verdict: <em>"impressive, but impractical."</em></p>
+<p>The conversation quality was high — thoughtful, logical, with a depth other models lacked. But the free-tier limits were brutal. A few exchanges and you'd hit the wall. For a self-taught engineer who needs to ask questions when the questions come, <em>"come back tomorrow"</em> is a dealbreaker.</p>
+<p>I filed Claude under "great but can't use it" and went back to ChatGPT + Gemini as my main stack.</p>
+
+<h2>Chapter 5 — Sonnet 4.5: Claude Had Changed</h2>
+<p>Time passed. Then <strong>Claude Sonnet 4.5</strong> launched.</p>
+<p>Tech communities were buzzing. I tried it sceptically. I was stunned.</p>
+<p>This was not the Claude I remembered. Code comprehension had jumped to another level. Long context retention was solid. And the ability to <em>write code</em> was in a different league entirely. Same name, completely different tool.</p>
+
+<h2>Chapter 6 — The Pentagon Moment: Values as a Deciding Factor</h2>
+<p>Then I heard a story about Anthropic's CEO <strong>Dario Amodei</strong> declining a contract with the <strong>Pentagon</strong>.</p>
+<p>Many companies will sell their most advanced technology to defence departments without hesitation — profit justifies it. Anthropic said no. Dario has placed AI Safety at the core of the company, taking the position that technology does not exist purely to generate revenue.</p>
+<p>When I heard that, something clicked.</p>
+<p>ChatGPT and Gemini are technically brilliant. DeepSeek's code generation is hard to beat. But the <em>philosophy behind the tool you use every day</em> — that matters too.</p>
+<p><strong>I resonated with Anthropic's values. I chose Claude.</strong></p>
+<div class="note"><strong>Note:</strong> Details around the Pentagon story may vary — please fact-check with current sources. This reflects my understanding at the time of writing.</div>
+
+<h2>Chapter 7 — Claude Code: Learning Changed</h2>
+<p>Claude Code was fundamentally different from any AI chat tool I'd used.</p>
+<p>ChatGPT and Gemini are <em>conversation partners</em>: ask a question, get an answer, copy it, paste it into your editor. Claude Code is a <em>colleague working beside you</em>: it reads your actual project files, edits them directly, runs terminal commands, handles Git with you.</p>
+
+<h3>The Old Way (Chat-Based AI)</h3>
+<pre>1. Google the problem
+2. Ask the AI chat
+3. Copy the answer
+4. Paste into editor
+5. It doesn't work → back to chat
+6. Copy-paste → doesn't work → back to chat
+7. Three hours later, you've forgotten the original problem</pre>
+
+<h3>The Claude Code Way</h3>
+<pre>1. Ask inside your own project
+2. Get advice grounded in your actual code
+3. Edit files together in real time
+4. Ask "why does this work?" and go deeper
+5. See the result immediately
+6. Understanding sticks</pre>
+
+<p>The shift is from <em>being given answers</em> to <em>building things together while learning</em>.</p>
+
+<h2>Chapter 8 — Learning Git: From Shame to Shipping</h2>
+<p>My first major project with Claude Code was learning <strong>Git</strong> properly. I had to escape the filename-versioning era.</p>
+<p>I asked Claude Code everything:</p>
+<ul>
+  <li><em>"Explain <code>git rebase</code> vs <code>git merge</code> using a factory assembly-line analogy"</em></li>
+  <li><em>"Walk me through resolving a conflict step by step"</em></li>
+  <li><em>"How do teams name their branches in real projects?"</em></li>
+  <li><em>"I accidentally pushed. Can I undo it?"</em></li>
+  <li><em>"What is <code>git stash</code> and when do I use it?"</em></li>
+</ul>
+<p>Coming from manufacturing, abstract explanations didn't land — I needed concrete analogies. Claude Code delivered.</p>
+<p>The result: <a href="https://rikiza89.github.io" target="_blank">📖 The Complete Git & GitHub Guide</a> — a person who versioned files by appending dates to filenames now publishes on GitHub Pages.</p>
+
+<h2>Chapter 9 — AI as a Learning Tool: Using It Right</h2>
+<p>Let me be clear: Claude Code is <strong>one learning method among many</strong>, not a replacement for learning itself.</p>
+<table>
+  <tr><th>Strength</th><th>Description</th></tr>
+  <tr><td><strong>Instant feedback</strong></td><td>Code review on the spot</td></tr>
+  <tr><td><strong>Context awareness</strong></td><td>Advice grounded in your actual project</td></tr>
+  <tr><td><strong>Gradual depth</strong></td><td>Start beginner-level, go deeper on request</td></tr>
+  <tr><td><strong>Multilingual</strong></td><td>Ask in English, Italian, Japanese — it adapts</td></tr>
+  <tr><td><strong>Hands-on</strong></td><td>Edit real files as you learn</td></tr>
+</table>
+<table>
+  <tr><th>Limitation</th><th>Description</th></tr>
+  <tr><td><strong>Fact-check everything</strong></td><td>AI answers must always be verified</td></tr>
+  <tr><td><strong>Fundamentals still matter</strong></td><td>Textbooks and official docs are irreplaceable</td></tr>
+  <tr><td><strong>Team experience</strong></td><td>Real collaborative development can't be simulated</td></tr>
+  <tr><td><strong>Community</strong></td><td>Human interaction and meetups still count</td></tr>
+  <tr><td><strong>Don't over-rely</strong></td><td>Keep training your own thinking</td></tr>
+</table>
+<blockquote><strong>Core principle:</strong> AI accelerates learning. It does not replace it.</blockquote>
+
+<h2>Chapter 10 — Manufacturing to Tech: Skills That Transferred</h2>
+<p>I thought my factory background was a liability. I was wrong.</p>
+<table>
+  <tr><th>Manufacturing mindset</th><th>Tech equivalent</th></tr>
+  <tr><td>Quality Control (QC)</td><td>Code review, testing</td></tr>
+  <tr><td>Standard Operating Procedures</td><td>Documentation, README files</td></tr>
+  <tr><td>Kaizen (continuous improvement)</td><td>Refactoring, optimisation</td></tr>
+  <tr><td>5S (workplace organisation)</td><td>Clean code, file structure</td></tr>
+  <tr><td>PDCA cycle</td><td>Agile sprints</td></tr>
+  <tr><td>Defect root-cause analysis</td><td>Debugging</td></tr>
+</table>
+<p><em>Taking process seriously</em> — something drilled into me on the factory floor — is, if anything, rarer among developers. It's a genuine edge.</p>
+
+<h2>Chapter 11 — Before & After</h2>
+<h3>Before</h3>
+<ul>
+  <li>Version control = appending dates to filenames</li>
+  <li>No idea what a <code>commit</code> was</li>
+  <li>Opening a terminal was nerve-wracking</li>
+  <li>Error messages made me close the window</li>
+  <li>GitHub was something you put on a CV without knowing how to use it</li>
+  <li>Copy-pasting AI output without understanding it</li>
+</ul>
+<h3>After</h3>
+<ul>
+  <li><code>git branch</code>, <code>merge</code>, <code>rebase</code> — understood and used daily</li>
+  <li>Site published on GitHub Pages → <a href="https://rikiza89.github.io" target="_blank">rikiza89.github.io</a></li>
+  <li>Terminal: comfortable</li>
+  <li>Error messages: read and debugged alongside Claude Code</li>
+  <li>AI: a dialogue partner, not a copy-paste machine</li>
+</ul>
+
+<h2>The Road Ahead</h2>
+<ol>
+  <li><strong>Join a team project</strong> — move beyond solo development</li>
+  <li><strong>Contribute to open source</strong> — starting with small issues</li>
+  <li><strong>Keep publishing my learning</strong> — to help others in the same position</li>
+  <li><strong>Keep trying new AI tools</strong> — stay curious, never settle</li>
+</ol>
+
+<h2>10 Years — The Lessons</h2>
+<ol>
+  <li><strong>Self-taught is slow but durable</strong> — knowledge you fought for doesn't leave you</li>
+  <li><strong>Try every AI tool</strong> — each one teaches you something different</li>
+  <li><strong>Tool selection isn't only about capability</strong> — the values behind the tool matter too</li>
+  <li><strong>AI accelerates; it doesn't replace</strong> — always fact-check, never depend blindly</li>
+  <li><strong>Career changes aren't weaknesses</strong> — factory experience is a weapon in tech</li>
+  <li><strong>You can grow from <code>_final_FINAL_this_is_really_the_last_one.py</code></strong> — Git is learnable by anyone</li>
+</ol>
+
+<p style="margin-top:2rem;color:var(--muted);font-size:.88rem">
+  This article was written with the assistance of Claude Code. All facts were verified by the author.<br>
+  AI and human collaboration — this is how I believe we learn best going forward.
+</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ ITALIANO -->
+<div id="it" class="lang-section">
+
+<h2>Introduzione</h2>
+<p>Questo articolo è il <strong>diario di viaggio</strong> di un programmatore autodidatta che ha cambiato carriera, passando dall'industria manifatturiera al mondo tech.</p>
+<p>Dal giorno in cui ho scritto la mia prima macro Excel, alla scoperta di Python, allo shock di ChatGPT, al tour tra decine di strumenti AI, fino ad approdare su <em>Claude Code</em> — questo non è un tutorial tecnico. Leggilo come la <strong>storia di crescita di una persona nel corso di dieci anni</strong>.</p>
+
+<h2>Capitolo 0 — L'inizio: VBA e 7 anni nell'industria</h2>
+<p>Prima di parlare di ChatGPT, partiamo dall'inizio.</p>
+<p>Circa dieci anni fa lavoravo in un'azienda manifatturiera. Ogni giorno: le stesse attività, gli stessi report, lo stesso lavoro su foglio di calcolo. Un giorno ho pensato — <em>"non si può automatizzare tutto questo?"</em></p>
+<p>È lì che ho scoperto il <strong>registratore di macro di Excel</strong>.</p>
+
+<h3>Passo 1 — Registra e Osserva</h3>
+<p>Premi Registra, fai le tue operazioni, premi Stop. Apri l'editor VBA e guarda il codice generato.</p>
+<pre>Sub Macro1()
+    Range("A1").Select
+    Selection.Copy
+    Range("B1").Select
+    ActiveSheet.Paste
+    Range("A2:A100").Select
+    Selection.Sort Key1:=Range("A2"), Order1:=xlAscending
+End Sub</pre>
+<p>All'inizio sembrava un incantesimo. Ma dopo aver registrato e riletto decine di volte, i pattern emergevano. <code>Range</code> indica una cella. <code>Sort</code> significa ordinare. Pezzo per pezzo, il significato diventava chiaro.</p>
+
+<h3>Passo 2 — Ottimizza ciò che hai registrato</h3>
+<p>Il codice generato dal registratore è verboso: seleziona, poi agisce sulla selezione. Si può scrivere in modo molto più conciso:</p>
+<pre>' Registrato (verboso)
+Range("A1").Select
+Selection.Copy
+Range("B1").Select
+ActiveSheet.Paste
+
+' Ottimizzato
+Range("A1").Copy Destination:=Range("B1")</pre>
+<p>Questo ciclo <em>registra → leggi → ottimizza</em> era il mio intero curriculum VBA. Excel stesso era il mio insegnante.</p>
+
+<h3>Passo 3 — Scrivilo da solo</h3>
+<p>Col tempo avevo bisogno di cose che il registratore non poteva produrre: condizioni <code>If</code>, cicli <code>For</code>, loop <code>Do While</code>. Vera programmazione.</p>
+<pre>Sub ProcessData()
+    Dim i As Long, lastRow As Long
+    lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 2 To lastRow
+        If Cells(i, 3).Value > 100 Then
+            Cells(i, 5).Value = "Da verificare"
+            Cells(i, 5).Interior.Color = vbYellow
+        End If
+    Next i
+End Sub</pre>
+
+<h3>7 anni di progetti</h3>
+<ul>
+  <li><strong>Automazione report giornalieri</strong> — un'attività da 30 minuti ogni mattina ridotta a un click</li>
+  <li><strong>Mini sistema di gestione magazzino</strong> — basato su Excel, ma funzionava sul campo</li>
+  <li><strong>Macro di aggregazione a fine mese</strong> — ore di lavoro ridotte a minuti</li>
+  <li><strong>Dashboard semplici</strong> — "visibilità" per il management</li>
+  <li><strong>Interfacce di input con UserForm</strong> — GUI intuitive per colleghi non tecnici</li>
+  <li><strong>Workflow del responsabile semi-automatizzato</strong> — un'attività che richiedeva più giorni ridotta a pochi click</li>
+</ul>
+
+<h3>L'inglese come superpotere</h3>
+<p>Un grande vantaggio: <strong>sapevo l'inglese</strong>. Le informazioni di più alta qualità nel mondo della programmazione — Stack Overflow, documentazione ufficiale, issue su GitHub — sono scritte in inglese. Leggerle direttamente ha moltiplicato le risorse disponibili.</p>
+<blockquote><strong>Consiglio per chi studia da solo:</strong> Impara l'inglese insieme alla programmazione. Insieme, accelerano l'apprendimento in modo drastico.</blockquote>
+
+<h3>La storia del Tetris su Excel</h3>
+<p>A un certo punto mi sono ritrovato a costruire <em>Tetris dentro Excel</em>. Celle come pixel, VBA per il game loop — funzionava davvero. Il codice era orribile (nomi di variabili senza senso, nesting profondo, logica copia-incollata cinque volte, spaghetti con <code>GoTo</code>), ma <strong>girava</strong>.</p>
+<blockquote>Nessuno scrive codice perfetto fin dall'inizio. L'importante è <strong>spedire qualcosa che funziona</strong>. Refactoring si fa dopo. Prima si consegna.</blockquote>
+<p>Quel successo — costruire Tetris da zero, da solo — è diventato il carburante per tutto il resto.</p>
+
+<h2>Capitolo 1 — La scoperta di Python: 3 anni di apprendistato</h2>
+<p>I limiti del VBA sono diventati evidenti col tempo. Viveva dentro Excel. Non poteva fare web scraping, chiamare API, parlare con altri sistemi. Era <em>magia potente rinchiusa in una scatola</em>.</p>
+<p>Poi ho scoperto <strong>Python</strong> — tre anni prima che arrivasse ChatGPT.</p>
+<p>Il mondo che Python apriva era enorme. Ma i muri dell'autoapprendimento erano alti:</p>
+<ul>
+  <li>Tre giorni persi per configurare l'ambiente (<em>cos'è pip? cos'è venv?</em>)</li>
+  <li>Tutorial che non giravano nonostante li seguissi alla lettera</li>
+  <li>Messaggi d'errore lunghi in inglese, senza un punto di partenza ovvio</li>
+  <li>Abitudini VBA che si infiltravano nello stile Python</li>
+</ul>
+<p>Ho continuato a scrivere ogni giorno — dopo il lavoro, a tarda notte, nei weekend. Da solo. Il mio controllo versioni era imbarazzante:</p>
+<pre>mio_progetto_v1.py
+mio_progetto_v2.py
+mio_progetto_v2_finale.py
+mio_progetto_v2_finale_FINALE.py
+mio_progetto_v2_finale_FINALE_questa_e_davvero_lultima.py</pre>
+<p>Sapevo che Git esisteva. <code>branch</code>, <code>merge</code>, <code>rebase</code> erano vocabolario alieno.</p>
+
+<h2>Capitolo 2 — Arriva ChatGPT: tutto accelera</h2>
+<p>Novembre 2022. ChatGPT viene lanciato. Mi sono iscritto il primo giorno.</p>
+<p>Per qualcuno che aveva imparato da solo per un decennio con Google e la documentazione, è stata una <strong>rivoluzione</strong>. Sette anni di VBA, tre di Python — e all'improvviso al mio workflow era stato aggiunto un <em>motore turbo</em>.</p>
+<ul>
+  <li><em>"Traduci questo codice Python in VBA"</em> — confronto istantaneo</li>
+  <li><em>"Cosa significa questo errore?"</em> — 10 secondi invece di 30 minuti su Stack Overflow</li>
+  <li><em>"Si può scrivere in modo più efficiente?"</em> — suggerimenti di refactoring immediati</li>
+</ul>
+<p>Dopo dieci anni di lotta solitaria, finalmente avevo <strong>qualcosa con cui potevo dialogare</strong>. Le risposte iniziali erano ancora imprecise e richiedevano verifica — ma mi diceva <em>cosa cercare</em>, e questo era già metà del lavoro.</p>
+
+<h2>Capitolo 3 — L'odissea degli strumenti AI</h2>
+<p>Una volta preso dalla febbre di ChatGPT, ho provato tutto:</p>
+<h3>Google Gemini</h3>
+<p>Forte sulle informazioni recenti grazie all'integrazione con la ricerca. Buono per spiegare il codice. Tendeva a divagare nelle conversazioni lunghe e profonde.</p>
+<h3>Qwen</h3>
+<p>Il modello multilingue di Alibaba. Gestiva bene le query miste in inglese, giapponese e cinese. Ho costruito la base del mio progetto più grande con questo strumento.</p>
+<h3>DeepSeek</h3>
+<p>Eccellente per la generazione di codice algoritmico. Produceva regolarmente risposte che facevano pensare "oh, bello" sui problemi di tipo algoritmico.</p>
+<h3>Modelli HuggingFace</h3>
+<p>Un mondo a parte — centinaia di modelli da sperimentare (Llama, Mistral, Falcon…). Eseguire modelli in locale ha approfondito la mia comprensione di come funziona davvero l'AI.</p>
+<blockquote><strong>Lezione chiave:</strong> Ogni strumento ha una specialità e un limite. Nessuna AI è universale. Conoscere i punti di forza di ciascuno moltiplica la velocità di apprendimento.</blockquote>
+
+<h2>Capitolo 4 — Primo contatto con Claude: ottimo, ma inutilizzabile</h2>
+<p>Ho provato Claude presto. Il mio giudizio onesto: <em>"impressionante, ma impraticabile."</em></p>
+<p>La qualità della conversazione era alta — riflessiva, logica, con una profondità che gli altri modelli non avevano. Ma i limiti del piano gratuito erano brutali. Pochi scambi e si raggiungeva il muro. Per un autodidatta che deve fare domande quando le domande arrivano, <em>"torna domani"</em> è un dealbreaker.</p>
+<p>Ho archiviato Claude sotto "ottimo ma non utilizzabile" e sono tornato a ChatGPT + Gemini come stack principale.</p>
+
+<h2>Capitolo 5 — Sonnet 4.5: Claude era cambiato</h2>
+<p>Passò del tempo. Poi arrivò <strong>Claude Sonnet 4.5</strong>.</p>
+<p>Le community tech erano in fermento. L'ho provato scettico. Sono rimasto a bocca aperta.</p>
+<p>Questo non era il Claude che ricordavo. La comprensione del codice aveva fatto un salto di livello. La gestione del contesto lungo era solida. E la capacità di <em>scrivere codice</em> era in un campionato completamente diverso. Stesso nome, strumento completamente diverso.</p>
+
+<h2>Capitolo 6 — Il momento del Pentagono: i valori come fattore decisivo</h2>
+<p>Poi ho sentito una storia: il CEO di Anthropic, <strong>Dario Amodei</strong>, aveva rifiutato un contratto con il <strong>Pentagono</strong>.</p>
+<p>Molte aziende vendono la loro tecnologia più avanzata ai ministeri della difesa senza esitazione — il profitto lo giustifica. Anthropic ha detto no. Dario ha posto la sicurezza dell'AI al centro dell'azienda, sostenendo che la tecnologia non esiste solo per generare fatturato.</p>
+<p>Quando l'ho saputo, qualcosa ha scattato.</p>
+<p>ChatGPT e Gemini sono tecnicamente brillanti. La generazione di codice di DeepSeek è difficile da battere. Ma la <em>filosofia dietro lo strumento che usi ogni giorno</em> — anche quella conta.</p>
+<p><strong>Ho condiviso i valori di Anthropic. Ho scelto Claude.</strong></p>
+<div class="note"><strong>Nota:</strong> I dettagli sulla storia del Pentagono potrebbero variare — verifica con fonti aggiornate. Questo riflette la mia comprensione al momento della scrittura.</div>
+
+<h2>Capitolo 7 — Claude Code: l'apprendimento cambia</h2>
+<p>Claude Code era fondamentalmente diverso da qualsiasi strumento di chat AI che avevo usato.</p>
+<p>ChatGPT e Gemini sono <em>interlocutori</em>: fai una domanda, ricevi una risposta, la copi, la incolli nell'editor. Claude Code è un <em>collega che lavora al tuo fianco</em>: legge i tuoi file di progetto reali, li modifica direttamente, esegue comandi nel terminale, gestisce Git con te.</p>
+
+<h3>Il vecchio metodo (chat AI)</h3>
+<pre>1. Cercare su Google
+2. Chiedere alla chat AI
+3. Copiare la risposta
+4. Incollarla nell'editor
+5. Non funziona → tornare alla chat
+6. Copia-incolla → non funziona → tornare alla chat
+7. Tre ore dopo, hai dimenticato il problema originale</pre>
+
+<h3>Il metodo Claude Code</h3>
+<pre>1. Fare la domanda dentro il proprio progetto
+2. Ricevere consigli basati sul codice reale
+3. Modificare i file insieme in tempo reale
+4. Chiedere "perché funziona così?" e approfondire
+5. Vedere il risultato immediatamente
+6. La comprensione si consolida</pre>
+
+<p>Il cambio è da <em>ricevere risposte</em> a <em>costruire insieme imparando</em>.</p>
+
+<h2>Capitolo 8 — Imparare Git: dalla vergogna alla pubblicazione</h2>
+<p>Il mio primo grande progetto con Claude Code è stato imparare <strong>Git</strong> sul serio. Dovevo scappare dall'era del versioning-con-nomi-di-file.</p>
+<p>Ho chiesto tutto a Claude Code:</p>
+<ul>
+  <li><em>"Spiega <code>git rebase</code> vs <code>git merge</code> usando l'analogia di una catena di montaggio"</em></li>
+  <li><em>"Guidami passo per passo nella risoluzione di un conflitto"</em></li>
+  <li><em>"Come nominano i branch i team nei progetti reali?"</em></li>
+  <li><em>"Ho fatto push per errore. Posso annullarlo?"</em></li>
+  <li><em>"Cos'è <code>git stash</code> e quando si usa?"</em></li>
+</ul>
+<p>Venendo dall'industria, le spiegazioni astratte non mi arrivavano — avevo bisogno di analogie concrete. Claude Code le forniva.</p>
+<p>Il risultato: <a href="https://rikiza89.github.io" target="_blank">📖 The Complete Git & GitHub Guide</a> — una persona che gestiva le versioni aggiungendo date ai nomi dei file ora pubblica su GitHub Pages.</p>
+
+<h2>Capitolo 9 — L'AI come strumento di apprendimento: usarla bene</h2>
+<p>Chiariamo: Claude Code è <strong>uno dei tanti metodi di apprendimento</strong>, non un sostituto dell'apprendimento stesso.</p>
+<table>
+  <tr><th>Punto di forza</th><th>Descrizione</th></tr>
+  <tr><td><strong>Feedback immediato</strong></td><td>Code review sul momento</td></tr>
+  <tr><td><strong>Consapevolezza del contesto</strong></td><td>Consigli basati sul tuo progetto reale</td></tr>
+  <tr><td><strong>Profondità graduale</strong></td><td>Parti dal livello base, approfondisci su richiesta</td></tr>
+  <tr><td><strong>Multilingue</strong></td><td>Chiedi in italiano, inglese, giapponese — si adatta</td></tr>
+  <tr><td><strong>Pratico</strong></td><td>Modifica file reali mentre impari</td></tr>
+</table>
+<table>
+  <tr><th>Limitazione</th><th>Descrizione</th></tr>
+  <tr><td><strong>Verifica sempre</strong></td><td>Le risposte AI vanno sempre controllate</td></tr>
+  <tr><td><strong>Le basi contano ancora</strong></td><td>Libri di testo e documentazione ufficiale sono insostituibili</td></tr>
+  <tr><td><strong>Esperienza in team</strong></td><td>Lo sviluppo collaborativo reale non si simula</td></tr>
+  <tr><td><strong>Community</strong></td><td>Le interazioni umane e i meetup contano ancora</td></tr>
+  <tr><td><strong>Non dipendere eccessivamente</strong></td><td>Continua ad allenare il tuo pensiero critico</td></tr>
+</table>
+<blockquote><strong>Principio chiave:</strong> L'AI accelera l'apprendimento. Non lo sostituisce.</blockquote>
+
+<h2>Capitolo 10 — Dall'industria al tech: competenze che si trasferiscono</h2>
+<p>Pensavo che il mio background manifatturiero fosse un limite. Mi sbagliavo.</p>
+<table>
+  <tr><th>Mentalità manifatturiera</th><th>Equivalente tech</th></tr>
+  <tr><td>Controllo qualità (QC)</td><td>Code review, testing</td></tr>
+  <tr><td>Procedure operative standard</td><td>Documentazione, file README</td></tr>
+  <tr><td>Kaizen (miglioramento continuo)</td><td>Refactoring, ottimizzazione</td></tr>
+  <tr><td>5S (organizzazione del posto di lavoro)</td><td>Clean code, struttura dei file</td></tr>
+  <tr><td>Ciclo PDCA</td><td>Sprint Agile</td></tr>
+  <tr><td>Analisi causa radice dei difetti</td><td>Debugging</td></tr>
+</table>
+<p><em>Prendere i processi sul serio</em> — qualcosa che mi è stato trasmesso in fabbrica — è, se possibile, ancora più raro tra gli sviluppatori. È un vero vantaggio competitivo.</p>
+
+<h2>Capitolo 11 — Prima e dopo</h2>
+<h3>Prima</h3>
+<ul>
+  <li>Controllo versioni = aggiungere la data al nome del file</li>
+  <li>Nessuna idea di cosa fosse un <code>commit</code></li>
+  <li>Aprire un terminale era fonte di ansia</li>
+  <li>I messaggi d'errore mi facevano chiudere la finestra</li>
+  <li>GitHub era qualcosa che si metteva nel CV senza saperlo usare</li>
+  <li>Copia-incolla di output AI senza capirlo</li>
+</ul>
+<h3>Dopo</h3>
+<ul>
+  <li><code>git branch</code>, <code>merge</code>, <code>rebase</code> — compresi e usati ogni giorno</li>
+  <li>Sito pubblicato su GitHub Pages → <a href="https://rikiza89.github.io" target="_blank">rikiza89.github.io</a></li>
+  <li>Terminale: zona di comfort</li>
+  <li>Messaggi d'errore: letti e risolti insieme a Claude Code</li>
+  <li>AI: un partner di dialogo, non una macchina copia-incolla</li>
+</ul>
+
+<h2>La strada davanti</h2>
+<ol>
+  <li><strong>Unirsi a un progetto di team</strong> — uscire dallo sviluppo solitario</li>
+  <li><strong>Contribuire all'open source</strong> — partendo dalle issue più piccole</li>
+  <li><strong>Continuare a pubblicare il mio percorso</strong> — per aiutare chi è nella stessa situazione</li>
+  <li><strong>Continuare a provare nuovi strumenti AI</strong> — restare curioso, non accontentarsi mai</li>
+</ol>
+
+<h2>10 anni — Le lezioni</h2>
+<ol>
+  <li><strong>L'autoapprendimento è lento ma solido</strong> — la conoscenza conquistata con fatica non te la porta via nessuno</li>
+  <li><strong>Prova tutti gli strumenti AI</strong> — ognuno insegna qualcosa di diverso</li>
+  <li><strong>La scelta dello strumento non riguarda solo le capacità tecniche</strong> — anche i valori dietro contano</li>
+  <li><strong>L'AI accelera, non sostituisce</strong> — verifica sempre, non dipendere ciecamente</li>
+  <li><strong>I cambi di carriera non sono debolezze</strong> — l'esperienza in fabbrica è un'arma nel tech</li>
+  <li><strong>Si può crescere partendo da <code>_finale_FINALE_questa_e_davvero_lultima.py</code></strong> — Git è imparabile da chiunque</li>
+</ol>
+
+<p style="margin-top:2rem;color:var(--muted);font-size:.88rem">
+  Questo articolo è stato scritto con l'assistenza di Claude Code. Tutti i fatti sono stati verificati dall'autore.<br>
+  Collaborazione tra AI e essere umano — questo è il modo in cui credo si impari meglio d'ora in poi.
+</p>
+</div>
+
+<script>
+  function switchLang(lang) {
+    document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(lang).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
